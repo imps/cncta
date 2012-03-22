@@ -23,7 +23,7 @@ class XMPP
 {
     private var xmpp:SecureXMPPConnection;
     private var stream:jabber.client.Stream;
-    private var room:jabber.client.MUChat;
+    public var room:jabber.client.MUChat;
 
     private var nick:String;
     private var channel:String;
@@ -124,6 +124,11 @@ class ChatMessage
         this.s = sender;
         this.m = msg;
     }
+
+    public function get_object():Dynamic
+    {
+        return {'c': this.c, 's': this.s, 'm': this.m};
+    }
 }
 
 class CNCTA
@@ -164,15 +169,16 @@ class CNCTA
         return app.getChat();
     }
 
-    private function on_new_message()
+    private function on_new_message(xmpp_from, xmpp_msg)
     {
-        var msg = new ChatMessage("foo", "bar");
-        this.get_chat_widget()._onNewMessage(msg);
+        var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
+        this.get_chat_widget()._onNewMessage(msg.get_object());
     }
 
     private function add_chat_handlers()
     {
         this.chat.AddMsg = this.xmpp.send;
+        this.xmpp.room.onMessage = this.on_new_message;
 
         var eventReg = untyped __js__("qx.event.Registration");
         eventReg.addListener(untyped __js__("window"), "shutdown",
