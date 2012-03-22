@@ -114,13 +114,13 @@ class CNCTA
 
     private function game_started()
     {
-        this.xmpp = new XMPP("ingame_asshole", "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
-        this.xmpp.on_joined = this.muctest;
-        this.xmpp.connect();
-
         this.client_lib = untyped
             __js__("ClientLib.Data.MainData.GetInstance()");
         this.chat = this.client_lib.get_Chat();
+
+        this.xmpp = new XMPP("ingame_asshole", "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
+        this.xmpp.on_joined = this.add_chat_handlers;
+        this.xmpp.connect();
 
         var timer = new haxe.Timer(10);
         timer.run = function() {
@@ -133,15 +133,15 @@ class CNCTA
         };
     }
 
+    private function add_chat_handlers()
+    {
+        this.chat.AddMsg = this.xmpp.send;
+    }
+
     private function start()
     {
         var app = untyped __js__("qx.core.Init.getApplication()");
         app.getChat().setVisibility("visible");
-    }
-
-    private function muctest()
-    {
-        this.xmpp.send("hello world");
     }
 
     static function main()
