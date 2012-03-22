@@ -46,6 +46,11 @@ class XMPP
         );
     }
 
+    public inline function disconnect()
+    {
+        this.xmpp.disconnect();
+    }
+
     private function join_room()
     {
         this.room = new jabber.client.MUChat(
@@ -136,6 +141,10 @@ class CNCTA
     private function add_chat_handlers()
     {
         this.chat.AddMsg = this.xmpp.send;
+
+        var eventReg = untyped __js__("qx.event.Registration");
+        eventReg.addListener(untyped __js__("window"), "shutdown",
+            this.xmpp.disconnect);
     }
 
     private function start()
