@@ -134,31 +134,22 @@ class ChatMessage
 class CNCTA
 {
     private var xmpp:XMPP;
-    private var client_lib:cncta.inject.ClientLib;
-    private var chat:cncta.inject.Chat;
+    private var maindata:cncta.inject.ClientLib;
+    private var chatdata:cncta.inject.Chat;
 
     public function new()
     {
-        this.game_started();
-    }
-
-    private function game_started()
-    {
-        this.client_lib = untyped
-            __js__("ClientLib.Data.MainData.GetInstance()");
-        this.chat = this.client_lib.get_Chat();
-
-        var nick = this.client_lib.get_Player().get_Name();
-        this.xmpp = new XMPP(nick, "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
-        this.xmpp.on_joined = this.add_chat_handlers;
-        this.xmpp.connect();
-
         var timer = new haxe.Timer(10);
         timer.run = function() {
             var init_done = untyped
                 __js__("qx.core.Init.getApplication().initDone");
             if (init_done == true) {
                 timer.stop();
+
+                this.maindata = untyped
+                    __js__("ClientLib.Data.MainData.GetInstance()");
+                this.chatdata = this.maindata.get_Chat();
+
                 this.start();
             }
         };
@@ -178,7 +169,7 @@ class CNCTA
 
     private function add_chat_handlers()
     {
-        this.chat.AddMsg = this.xmpp.send;
+        this.chatdata.AddMsg = this.xmpp.send;
         this.xmpp.room.onMessage = this.on_new_message;
 
         var eventReg = untyped __js__("qx.event.Registration");
@@ -189,6 +180,11 @@ class CNCTA
     private function start()
     {
         this.get_chat_widget().setVisibility("visible");
+
+        var nick = this.maindata.get_Player().get_Name();
+        this.xmpp = new XMPP(nick, "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
+        this.xmpp.on_joined = this.add_chat_handlers;
+        this.xmpp.connect();
     }
 
     static function main()
