@@ -122,12 +122,21 @@ class CNCTA
             __js__("ClientLib.Data.MainData.GetInstance()");
         this.chat = this.client_lib.get_Chat();
 
-        this.start();
+        var timer = new haxe.Timer(10);
+        timer.run = function() {
+            var init_done = untyped
+                __js__("qx.core.Init.getApplication().initDone");
+            if (init_done == true) {
+                timer.stop();
+                this.start();
+            }
+        };
     }
 
     private function start()
     {
-        untyped __js__("qx.core.Init.getApplication().getRoot().add(new webfrontend.gui.Chat())");
+        var app = untyped __js__("qx.core.Init.getApplication()");
+        app.getChat().setVisibility("visible");
     }
 
     private function muctest()
