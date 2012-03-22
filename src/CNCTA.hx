@@ -138,6 +138,12 @@ class CNCTA
         };
     }
 
+    private function get_chat_widget():Dynamic
+    {
+        var app = untyped __js__("qx.core.Init.getApplication()");
+        return app.getChat();
+    }
+
     private function add_chat_handlers()
     {
         this.chat.AddMsg = this.xmpp.send;
@@ -149,8 +155,7 @@ class CNCTA
 
     private function start()
     {
-        var app = untyped __js__("qx.core.Init.getApplication()");
-        app.getChat().setVisibility("visible");
+        this.get_chat_widget().setVisibility("visible");
     }
 
     static function main()
