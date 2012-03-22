@@ -108,9 +108,9 @@ extern class Loader
 
 class ChatMessage
 {
-    public var c:String; // content
-    public var s:String; // sender
-    public var m:String; // message
+    public var content:String;
+    public var sender:String;
+    public var message:String;
 
     //c = "@A";         // alliance
     //c = "@CCC";       // dunno?
@@ -120,14 +120,14 @@ class ChatMessage
 
     public function new(sender:String, msg:String)
     {
-        this.c = "@A";
-        this.s = sender;
-        this.m = msg;
+        this.content = "@A";
+        this.sender = sender;
+        this.message = msg;
     }
 
     public function get_object():Dynamic
     {
-        return {'c': this.c, 's': this.s, 'm': this.m};
+        return {'c': this.content, 's': this.sender, 'm': this.message};
     }
 }
 
