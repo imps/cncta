@@ -106,6 +106,26 @@ extern class Loader
     public function addFinishHandler(cb:Dynamic):Void;
 }
 
+class ChatMessage
+{
+    public var c:String; // content
+    public var s:String; // sender
+    public var m:String; // message
+
+    //c = "@A";         // alliance
+    //c = "@CCC";       // dunno?
+    //c = "@CCM";       // dunno?
+    //c = "privatein";  // incoming private message
+    //c = "privateout"; // outgoing private message
+
+    public function new(sender:String, msg:String)
+    {
+        this.c = "@A";
+        this.s = sender;
+        this.m = msg;
+    }
+}
+
 class CNCTA
 {
     private var xmpp:XMPP;
@@ -142,6 +162,12 @@ class CNCTA
     {
         var app = untyped __js__("qx.core.Init.getApplication()");
         return app.getChat();
+    }
+
+    private function on_new_message()
+    {
+        var msg = new ChatMessage("foo", "bar");
+        this.get_chat_widget()._onNewMessage(msg);
     }
 
     private function add_chat_handlers()
