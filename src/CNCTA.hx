@@ -148,7 +148,8 @@ class CNCTA
             __js__("ClientLib.Data.MainData.GetInstance()");
         this.chat = this.client_lib.get_Chat();
 
-        this.xmpp = new XMPP("ingame_asshole", "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
+        var nick = this.client_lib.get_Player().get_Name();
+        this.xmpp = new XMPP(nick, "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
         this.xmpp.on_joined = this.add_chat_handlers;
         this.xmpp.connect();
 
