@@ -215,8 +215,19 @@ class CNCTA
 
     private var _timer:haxe.Timer;
 
+    private var is_running:Bool;
+
     public function new()
     {
+        this.is_running = false;
+    }
+
+    public function run()
+    {
+        if (this.is_running)
+            return;
+
+        this.is_running = true;
         var watch = new CNCInitWatch();
         watch.on_watch_ready = this.start;
     }
@@ -272,8 +283,9 @@ class CNCTA
 
     static function main()
     {
+        var cncta = new CNCTA();
         untyped __js__("loader.addFinishHandler")(
-            function() { new CNCTA(); }
+            function() { cncta.run(); }
         );
     }
 }
