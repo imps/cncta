@@ -80,12 +80,15 @@ class XMPP
             [new AnonymousMechanism()]
         );
 
-        auth.onSuccess = function() {
-            this.stream.sendPresence();
-            this.join_room();
-        }
+        auth.onSuccess = this.on_auth_success;
 
         auth.start(null, null);
+    }
+
+    private function on_auth_success()
+    {
+        this.stream.sendPresence();
+        this.join_room();
     }
 
     private function xmpp_connect(host:String, path:String)
