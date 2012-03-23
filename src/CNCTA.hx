@@ -172,6 +172,22 @@ class CNCInitWatch extends CNCWatch
     }
 }
 
+class PlayerWatch extends CNCWatch
+{
+    public function new()
+    {
+        super(this.watcher);
+    }
+
+    private function watcher():Bool
+    {
+        var player_name = untyped __js__(
+            "ClientLib.Data.MainData.GetInstance().get_Player().get_Name()"
+        );
+        return player_name;
+    }
+}
+
 class CNCTA
 {
     private var xmpp:XMPP;
@@ -214,6 +230,12 @@ class CNCTA
         this.chatdata = this.maindata.get_Chat();
         this.get_chat_widget().setVisibility("visible");
 
+        var watch_player = new PlayerWatch();
+        watch_player.on_watch_ready = this.start_xmpp;
+    }
+
+    private function start_xmpp()
+    {
         var nick = this.maindata.get_Player().get_Name();
         this.xmpp = new XMPP(nick, "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
         this.xmpp.on_joined = this.add_chat_handlers;
