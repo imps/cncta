@@ -131,6 +131,43 @@ class ChatMessage
     }
 }
 
+class CNCWatch
+{
+    private var _timer:haxe.Timer;
+    private var _watcher:Void -> Bool;
+
+    public function new(watcher:Void -> Bool)
+    {
+        this._timer = new haxe.Timer(10);
+        this._timer.run = this.on_timer;
+    }
+
+    private function on_timer()
+    {
+        if (this._watcher()) {
+            this._timer.stop();
+            this.on_watch_ready();
+        }
+    }
+
+    public dynamic function on_watch_ready():Void {}
+}
+
+class CNCInitWatch extends CNCWatch
+{
+    public function new()
+    {
+        super(this.watcher);
+    }
+
+    private function watcher():Bool
+    {
+        var init_done = untyped
+            __js__("qx.core.Init.getApplication().initDone");
+        return init_done == true;
+    }
+}
+
 class CNCTA
 {
     private var xmpp:XMPP;
