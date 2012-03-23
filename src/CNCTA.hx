@@ -293,6 +293,8 @@ class CNCTA
     private function start_xmpp()
     {
         var nick = this.maindata.get_Player().get_Name();
+        var aabbrev = this.maindata.get_Alliance().get_Abbreviation();
+
         var passwd = this.get_alliance_hash();
 
         this.xmpp = new XMPP(nick, aabbrev.toLowerCase(), passwd);
