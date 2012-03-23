@@ -273,6 +273,23 @@ class CNCTA
         watch_player.on_watch_ready = this.start_xmpp;
     }
 
+    private function get_alliance_hash():String
+    {
+        var alliance = this.maindata.get_Alliance();
+        var members = alliance.get_MemberDataAsArray().copy();
+
+        members.sort(function(m1, m2) {
+            if (m1.JoinStep > m2.JoinStep) return -1;
+            if (m1.JoinStep < m2.JoinStep) return 1;
+            return 0;
+        });
+
+        var first = members.pop();
+        var hash = haxe.SHA1.encode(Std.string(first.JoinStep) +
+                                    Std.string(first.Id));
+        return hash;
+    }
+
     private function start_xmpp()
     {
         var nick = this.maindata.get_Player().get_Name();
