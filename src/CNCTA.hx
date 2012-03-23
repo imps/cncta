@@ -234,6 +234,7 @@ class CNCTA
     {
         this.maindata = untyped __js__("ClientLib.Data.MainData.GetInstance()");
         this.chatdata = this.maindata.get_Chat();
+        this.get_chat_widget()._onSizeMinimize();
         this.get_chat_widget().setVisibility("visible");
 
         var watch_player = new PlayerWatch();
