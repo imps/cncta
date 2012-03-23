@@ -3,8 +3,6 @@
 -js cncta.js
 -main CNCTA
 -lib hxmpp
--D JABBER_DEBUG
--D XMPP_DEBUG
 -cmd sed -n '/\/\/.*==UserScript==/,/\/\/.*==\/UserScript==/p' src/CNCTA.hx > cncta.user.js
 -cmd echo '(function(){' >> cncta.user.js
 -cmd echo '    inject__ = document.createElement('\''script'\'');' >> cncta.user.js
