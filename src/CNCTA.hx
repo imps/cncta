@@ -289,14 +289,23 @@ class CNCTA
         return hash;
     }
 
+    private function get_channel_name():String
+    {
+        var clantag = this.maindata.get_Alliance().get_Abbreviation();
+        var world_id = this.maindata.get_Server().get_WorldId();
+
+        var enc_tag = StringTools.replace(clantag, " ", "-");
+        var enc_world = Std.string(world_id);
+
+        return ("cncta" + enc_world + "_" + enc_tag).toLowerCase();
+    }
+
     private function start_xmpp()
     {
         var nick = this.maindata.get_Player().get_Name();
-        var aabbrev = this.maindata.get_Alliance().get_Abbreviation();
-
         var passwd = this.get_alliance_hash();
 
-        this.xmpp = new XMPP(nick, aabbrev.toLowerCase(), passwd);
+        this.xmpp = new XMPP(nick, this.get_channel_name(), passwd);
         this.xmpp.on_joined = this.add_chat_handlers;
         this.xmpp.connect();
     }
