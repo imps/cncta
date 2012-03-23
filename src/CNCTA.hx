@@ -141,6 +141,7 @@ class CNCWatch
 
     public function new(watcher:Void -> Bool)
     {
+        this._watcher = watcher;
         this._timer = new haxe.Timer(10);
         this._timer.run = this.on_timer;
     }
