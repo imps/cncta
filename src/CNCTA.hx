@@ -130,7 +130,7 @@ class ChatMessage
 
     public function get_object():Dynamic
     {
-        return {'c': this.content, 's': this.sender, 'm': this.message};
+        return {c: this.content, s: this.sender, m: this.message};
     }
 }
 
