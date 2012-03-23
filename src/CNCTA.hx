@@ -73,14 +73,13 @@ class XMPP
     private function get_next_nick():String
     {
         this.nick_retries++;
-        return this.nick + this.nick_retries;
+        return this.nick + Std.string(this.nick_retries);
     }
 
     private function on_room_error(e:jabber.XMPPError)
     {
         if (e.code == 409) { // nickname in use
-            this.room.changeNick(this.get_next_nick());
-            this.room.sendPresence();
+            this.room.join(this.get_next_nick(), this.passwd);
         }
     }
 
