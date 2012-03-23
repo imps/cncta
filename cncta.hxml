@@ -2,7 +2,6 @@
 -cp src
 -js cncta.js
 -main CNCTA
--lib DomReady
 -lib hxmpp
 -D JABBER_DEBUG
 -D XMPP_DEBUG
