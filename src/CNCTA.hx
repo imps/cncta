@@ -212,7 +212,7 @@ class CNCTA
     private function on_new_message(xmpp_from, xmpp_msg)
     {
         switch (xmpp_msg.type) {
-            case chat:
+            case groupchat:
                 var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
                 this.get_chat_widget()._onNewMessage(msg.get_object());
             default:
