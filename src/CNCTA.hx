@@ -5,7 +5,7 @@
 // @namespace     https://github.com/aszlig/imps
 // @include       http://prodgame*.alliances.commandandconquer.com/*/index.aspx
 // @run_at        document-end
-// @version       0.1
+// @version       0.1.1
 // @date          2012-03-21
 // ==/UserScript==
 
