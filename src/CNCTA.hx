@@ -124,11 +124,6 @@ class XMPP
     }
 }
 
-extern class Loader
-{
-    public function addFinishHandler(cb:Dynamic):Void;
-}
-
 class ChatMessage
 {
     public var content:String;
