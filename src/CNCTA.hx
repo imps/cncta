@@ -65,7 +65,7 @@ class XMPP
         );
 
         this.room.onJoin = this.on_joined;
-        this.room.onError = this.on_join_error;
+        this.room.onError = this.on_room_error;
 
         this.room.join(this.nick, this.passwd);
     }
@@ -76,10 +76,11 @@ class XMPP
         return this.nick + this.nick_retries;
     }
 
-    private function on_join_error(e:jabber.XMPPError)
+    private function on_room_error(e:jabber.XMPPError)
     {
         if (e.code == 409) { // nickname in use
-            this.room.join(this.get_next_nick(), this.passwd);
+            this.room.changeNick(this.get_next_nick());
+            this.room.sendPresence();
         }
     }
 
