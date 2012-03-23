@@ -174,22 +174,12 @@ class CNCTA
     private var maindata:cncta.inject.ClientLib;
     private var chatdata:cncta.inject.Chat;
 
+    private var _timer:haxe.Timer;
+
     public function new()
     {
-        var timer = new haxe.Timer(10);
-        timer.run = function() {
-            var init_done = untyped
-                __js__("qx.core.Init.getApplication().initDone");
-            if (init_done == true) {
-                timer.stop();
-
-                this.maindata = untyped
-                    __js__("ClientLib.Data.MainData.GetInstance()");
-                this.chatdata = this.maindata.get_Chat();
-
-                this.start();
-            }
-        };
+        var watch = new CNCInitWatch();
+        watch.on_watch_ready = this.start;
     }
 
     private function get_chat_widget():Dynamic
@@ -216,6 +206,8 @@ class CNCTA
 
     private function start()
     {
+        this.maindata = untyped __js__("ClientLib.Data.MainData.GetInstance()");
+        this.chatdata = this.maindata.get_Chat();
         this.get_chat_widget().setVisibility("visible");
 
         var nick = this.maindata.get_Player().get_Name();
