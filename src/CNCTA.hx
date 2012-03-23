@@ -65,9 +65,15 @@ class XMPP
         );
 
         this.room.onJoin = this.on_joined;
+        this.room.onUnlock = this.configure_room;
         this.room.onError = this.on_room_error;
 
         this.room.join(this.nick, this.passwd);
+    }
+
+    private function configure_room()
+    {
+        // TODO: set password and drop privileges
     }
 
     private function get_next_nick():String
