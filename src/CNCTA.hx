@@ -293,7 +293,9 @@ class CNCTA
     private function start_xmpp()
     {
         var nick = this.maindata.get_Player().get_Name();
-        this.xmpp = new XMPP(nick, "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
+        var passwd = this.get_alliance_hash();
+
+        this.xmpp = new XMPP(nick, aabbrev.toLowerCase(), passwd);
         this.xmpp.on_joined = this.add_chat_handlers;
         this.xmpp.connect();
     }
