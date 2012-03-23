@@ -30,11 +30,15 @@ class XMPP
     private var channel:String;
     private var passwd:String;
 
+    private var nick_retries:Int;
+
     public function new(nick:String, channel:String, ?passwd:String)
     {
         this.nick = nick;
         this.channel = channel;
         this.passwd = passwd;
+
+        this.nick_retries = 0;
     }
 
     public dynamic function on_joined():Void {}
@@ -61,8 +65,22 @@ class XMPP
         );
 
         this.room.onJoin = this.on_joined;
+        this.room.onError = this.on_join_error;
 
         this.room.join(this.nick, this.passwd);
+    }
+
+    private function get_next_nick():String
+    {
+        this.nick_retries++;
+        return this.nick + this.nick_retries;
+    }
+
+    private function on_join_error(e:jabber.XMPPError)
+    {
+        if (e.code == 409) { // nickname in use
+            this.room.join(this.get_next_nick(), this.passwd);
+        }
     }
 
     public function send(text:String)
