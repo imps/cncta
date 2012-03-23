@@ -156,21 +156,20 @@ class ChatMessage
 
 class CNCWatch
 {
-    private var _timer:haxe.Timer;
     private var _watcher:Void -> Bool;
 
     public function new(watcher:Void -> Bool)
     {
         this._watcher = watcher;
-        this._timer = new haxe.Timer(10);
-        this._timer.run = this.on_timer;
+        this.on_timer();
     }
 
     private function on_timer()
     {
         if (this._watcher()) {
-            this._timer.stop();
             this.on_watch_ready();
+        } else {
+            haxe.Timer.delay(this.on_timer, 10);
         }
     }
 
