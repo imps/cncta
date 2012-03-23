@@ -9,6 +9,7 @@
 // @date          2012-03-21
 // ==/UserScript==
 
+import xmpp.MessageType;
 import jabber.sasl.AnonymousMechanism;
 
 class SecureXMPPConnection extends jabber.BOSHConnection
@@ -210,8 +211,13 @@ class CNCTA
 
     private function on_new_message(xmpp_from, xmpp_msg)
     {
-        var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
-        this.get_chat_widget()._onNewMessage(msg.get_object());
+        switch (xmpp_msg.type) {
+            case chat:
+                var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
+                this.get_chat_widget()._onNewMessage(msg.get_object());
+            default:
+                return;
+        }
     }
 
     private function add_chat_handlers()
