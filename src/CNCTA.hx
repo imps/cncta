@@ -10,6 +10,7 @@
 // ==/UserScript==
 
 import xmpp.MessageType;
+import xmpp.muc.Affiliation;
 import jabber.sasl.AnonymousMechanism;
 
 class SecureXMPPConnection extends jabber.BOSHConnection
@@ -64,8 +65,13 @@ class XMPP
             this.channel
         );
 
-        this.room.onJoin = this.on_joined;
-        this.room.onUnlock = this.configure_room;
+        this.room.onJoin = function() {
+            if (this.room.affiliation == owner) {
+                this.configure_room();
+            }
+            this.on_joined();
+        };
+
         this.room.onError = this.on_room_error;
 
         this.room.join(this.nick, this.passwd);
@@ -73,7 +79,55 @@ class XMPP
 
     private function configure_room()
     {
-        // TODO: set password and drop privileges
+        var iq = new xmpp.IQ(xmpp.IQType.get, null, this.room.jid);
+        iq.properties.push(new xmpp.MUCOwner().toXml());
+        this.room.stream.sendIQ(iq, this.on_config_reply);
+    }
+
+    private function parse_config_form(xml:Xml):xmpp.DataForm
+    {
+        for (elem in xml.elements()) {
+            if (elem.nodeName != "query")
+                continue;
+
+            for (qelem in elem) {
+                if (qelem.nodeName == "x")
+                    return xmpp.DataForm.parse(qelem);
+            }
+        }
+
+        return null;
+    }
+
+    private inline function form_field(name:String, value:String)
+    {
+        var field = new xmpp.dataform.Field();
+        field.variable = name;
+        field.values.push(value);
+        return field;
+    }
+
+    private function on_config_reply(reply:xmpp.IQ)
+    {
+        var form = this.parse_config_form(reply.toXml());
+
+        var submit_form = new xmpp.DataForm(xmpp.dataform.FormType.submit);
+
+        for (f in [
+            form_field("FORM_TYPE", xmpp.MUC.XMLNS + "#roomconfig"),
+            form_field("muc#roomconfig_passwordprotectedroom", "1"),
+            form_field("muc#roomconfig_roomsecret", this.passwd),
+            form_field("muc#roomconfig_allowinvites", "1"),
+            form_field("public_list", "0"),
+            form_field("muc#roomconfig_publicroom", "0"),
+            form_field("muc#roomconfig_roomname", "alliance name here"),
+        ]) submit_form.fields.push(f);
+
+        var iq = new xmpp.IQ(xmpp.IQType.set, null, this.room.jid);
+        var query = new xmpp.MUCOwner().toXml();
+        query.addChild(submit_form.toXml());
+        iq.properties.push(query);
+        this.room.stream.sendIQ(iq, function(r:xmpp.IQ) {});
     }
 
     private function get_next_nick():String
