@@ -77,28 +77,6 @@ class XMPP
         this.room.join(this.nick, this.passwd);
     }
 
-    private function configure_room()
-    {
-        var iq = new xmpp.IQ(xmpp.IQType.get, null, this.room.jid);
-        iq.properties.push(new xmpp.MUCOwner().toXml());
-        this.room.stream.sendIQ(iq, this.on_config_reply);
-    }
-
-    private function parse_config_form(xml:Xml):xmpp.DataForm
-    {
-        for (elem in xml.elements()) {
-            if (elem.nodeName != "query")
-                continue;
-
-            for (qelem in elem) {
-                if (qelem.nodeName == "x")
-                    return xmpp.DataForm.parse(qelem);
-            }
-        }
-
-        return null;
-    }
-
     private inline function form_field(name:String, value:String)
     {
         var field = new xmpp.dataform.Field();
@@ -107,11 +85,9 @@ class XMPP
         return field;
     }
 
-    private function on_config_reply(reply:xmpp.IQ)
+    private function configure_room()
     {
-        var form = this.parse_config_form(reply.toXml());
-
-        var submit_form = new xmpp.DataForm(xmpp.dataform.FormType.submit);
+        var form = new xmpp.DataForm(xmpp.dataform.FormType.submit);
 
         for (f in [
             form_field("FORM_TYPE", xmpp.MUC.XMLNS + "#roomconfig"),
@@ -121,11 +97,11 @@ class XMPP
             form_field("public_list", "0"),
             form_field("muc#roomconfig_publicroom", "0"),
             form_field("muc#roomconfig_roomname", "alliance name here"),
-        ]) submit_form.fields.push(f);
+        ]) form.fields.push(f);
 
         var iq = new xmpp.IQ(xmpp.IQType.set, null, this.room.jid);
         var query = new xmpp.MUCOwner().toXml();
-        query.addChild(submit_form.toXml());
+        query.addChild(form.toXml());
         iq.properties.push(query);
         this.room.stream.sendIQ(iq, function(r:xmpp.IQ) {});
     }
