@@ -5,7 +5,7 @@
 // @namespace     https://github.com/imps/cncta
 // @include       http://prodgame*.alliances.commandandconquer.com/*/index.*
 // @run_at        document-end
-// @version       0.2.2
+// @version       0.2.3
 // @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
