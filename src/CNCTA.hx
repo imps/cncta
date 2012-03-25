@@ -2,10 +2,10 @@
 // @name          IMPS C&C TA Helper
 // @author        aszlig
 // @description   A small tool which helps managing an alliance.
-// @namespace     https://github.com/aszlig/imps
+// @namespace     https://github.com/imps/cncta
 // @include       http://prodgame*.alliances.commandandconquer.com/*/index.*
 // @run_at        document-end
-// @version       0.2.2
+// @version       0.2.3
 // @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
