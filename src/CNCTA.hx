@@ -216,8 +216,8 @@ class ChatMessage
     //c = "@C";         // dunno?
     //c = "@CCC";       // dunno?
     //c = "@CCM";       // dunno?
-    //c = "@System";    // system message
-    //c = "@Info";      // info message
+    //s = "@System";    // system message
+    //s = "@Info";      // info message
     //c = "privatein";  // incoming private message
     //c = "privateout"; // outgoing private message
 
