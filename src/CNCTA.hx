@@ -22,7 +22,7 @@ class SecureXMPPConnection extends jabber.BOSHConnection
 
 class XMPP
 {
-    private var xmpp:SecureXMPPConnection;
+    private var conn:SecureXMPPConnection;
     private var stream:jabber.client.Stream;
     public var room:jabber.client.MUChat;
 
@@ -53,7 +53,7 @@ class XMPP
 
     public inline function disconnect()
     {
-        this.xmpp.disconnect();
+        this.conn.disconnect();
     }
 
     private function join_room()
@@ -118,8 +118,8 @@ class XMPP
 
     private function xmpp_connect(host:String, path:String)
     {
-        this.xmpp = new SecureXMPPConnection(host, path, null, null, true);
-        this.stream = new jabber.client.Stream(this.xmpp);
+        this.conn = new SecureXMPPConnection(host, path, null, null, true);
+        this.stream = new jabber.client.Stream(this.conn);
 
         stream.onOpen = this.on_xmpp_open;
 
