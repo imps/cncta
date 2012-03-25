@@ -10,6 +10,7 @@
 // ==/UserScript==
 
 import xmpp.MessageType;
+import xmpp.muc.Affiliation;
 import jabber.sasl.AnonymousMechanism;
 
 class SecureXMPPConnection extends jabber.BOSHConnection
@@ -20,11 +21,34 @@ class SecureXMPPConnection extends jabber.BOSHConnection
     }
 }
 
+class XMPPRoom extends jabber.client.MUChat
+{
+    private var password:String;
+
+    public override function join(nick:String, ?passwd:String):Bool
+    {
+        this.password = passwd;
+        return super.join(nick, passwd);
+    }
+
+    override function sendMyPresence(priority:Int = 5):xmpp.Presence
+    {
+        var x = xmpp.X.create(xmpp.MUC.XMLNS);
+        x.addChild(xmpp.XMLUtil.createElement("password", this.password));
+
+        var p = new xmpp.Presence(null, null, priority);
+        p.to = this.myjid;
+        p.properties.push(x);
+
+        return this.stream.sendPacket(p);
+    }
+}
+
 class XMPP
 {
-    private var xmpp:SecureXMPPConnection;
+    private var conn:SecureXMPPConnection;
     private var stream:jabber.client.Stream;
-    public var room:jabber.client.MUChat;
+    public var room:XMPPRoom;
 
     private var nick:String;
     private var channel:String;
@@ -53,34 +77,68 @@ class XMPP
 
     public inline function disconnect()
     {
-        this.xmpp.disconnect();
+        this.conn.disconnect();
     }
 
     private function join_room()
     {
-        this.room = new jabber.client.MUChat(
+        this.room = new XMPPRoom(
             this.stream,
             "conference.headcounter.org",
             this.channel
         );
 
-        this.room.onJoin = this.on_joined;
+        this.room.onJoin = function() {
+            if (this.room.affiliation == owner) {
+                this.configure_room();
+            }
+            this.on_joined();
+        };
+
         this.room.onError = this.on_room_error;
 
         this.room.join(this.nick, this.passwd);
     }
 
+    private inline function form_field(name:String, value:String)
+    {
+        var field = new xmpp.dataform.Field();
+        field.variable = name;
+        field.values.push(value);
+        return field;
+    }
+
+    private function configure_room()
+    {
+        var form = new xmpp.DataForm(xmpp.dataform.FormType.submit);
+
+        for (f in [
+            form_field("FORM_TYPE", xmpp.MUC.XMLNS + "#roomconfig"),
+            form_field("muc#roomconfig_passwordprotectedroom", "1"),
+            form_field("muc#roomconfig_roomsecret", this.passwd),
+            form_field("muc#roomconfig_allowinvites", "1"),
+            form_field("public_list", "0"),
+            form_field("muc#roomconfig_publicroom", "0"),
+            form_field("muc#roomconfig_roomname", "alliance name here"),
+        ]) form.fields.push(f);
+
+        var iq = new xmpp.IQ(xmpp.IQType.set, null, this.room.jid);
+        var query = new xmpp.MUCOwner().toXml();
+        query.addChild(form.toXml());
+        iq.properties.push(query);
+        this.room.stream.sendIQ(iq, function(r:xmpp.IQ) {});
+    }
+
     private function get_next_nick():String
     {
         this.nick_retries++;
-        return this.nick + this.nick_retries;
+        return this.nick + Std.string(this.nick_retries);
     }
 
     private function on_room_error(e:jabber.XMPPError)
     {
         if (e.code == 409) { // nickname in use
-            this.room.changeNick(this.get_next_nick());
-            this.room.sendPresence();
+            this.room.join(this.get_next_nick(), this.passwd);
         }
     }
 
@@ -113,8 +171,8 @@ class XMPP
 
     private function xmpp_connect(host:String, path:String)
     {
-        this.xmpp = new SecureXMPPConnection(host, path, null, null, true);
-        this.stream = new jabber.client.Stream(this.xmpp);
+        this.conn = new SecureXMPPConnection(host, path, null, null, true);
+        this.stream = new jabber.client.Stream(this.conn);
 
         stream.onOpen = this.on_xmpp_open;
 
@@ -268,10 +326,40 @@ class CNCTA
         watch_player.on_watch_ready = this.start_xmpp;
     }
 
+    private function get_alliance_hash():String
+    {
+        var alliance = this.maindata.get_Alliance();
+        var members = alliance.get_MemberDataAsArray().copy();
+
+        members.sort(function(m1, m2) {
+            if (m1.JoinStep > m2.JoinStep) return -1;
+            if (m1.JoinStep < m2.JoinStep) return 1;
+            return 0;
+        });
+
+        var first = members.pop();
+        var hash = haxe.SHA1.encode(Std.string(first.JoinStep) +
+                                    Std.string(first.Id));
+        return hash;
+    }
+
+    private function get_channel_name():String
+    {
+        var clantag = this.maindata.get_Alliance().get_Abbreviation();
+        var world_id = this.maindata.get_Server().get_WorldId();
+
+        var enc_tag = StringTools.replace(clantag, " ", "-");
+        var enc_world = Std.string(world_id);
+
+        return ("cncta" + enc_world + "_" + enc_tag).toLowerCase();
+    }
+
     private function start_xmpp()
     {
         var nick = this.maindata.get_Player().get_Name();
-        this.xmpp = new XMPP(nick, "imps", "zA_rw8tumQy=9oY=&='/|7Z+KJ*dEX");
+        var passwd = this.get_alliance_hash();
+
+        this.xmpp = new XMPP(nick, this.get_channel_name(), passwd);
         this.xmpp.on_joined = this.add_chat_handlers;
         this.xmpp.connect();
     }

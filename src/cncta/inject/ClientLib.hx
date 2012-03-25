@@ -4,4 +4,6 @@ extern class ClientLib
 {
     public function get_Chat():Chat;
     public function get_Player():Player;
+    public function get_Alliance():Alliance;
+    public function get_Server():Server;
 }
