@@ -6,6 +6,7 @@
 // @include       http://prodgame*.alliances.commandandconquer.com/*/index.aspx
 // @run_at        document-end
 // @version       0.1.1
+// @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
 
