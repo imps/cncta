@@ -13,6 +13,7 @@
 import xmpp.MessageType;
 import xmpp.muc.Affiliation;
 import jabber.sasl.AnonymousMechanism;
+import jabber.client.MUChat;
 
 class SecureXMPPConnection extends jabber.BOSHConnection
 {
@@ -22,7 +23,7 @@ class SecureXMPPConnection extends jabber.BOSHConnection
     }
 }
 
-class XMPPRoom extends jabber.client.MUChat
+class XMPPRoom extends MUChat
 {
     private var password:String;
 
@@ -101,6 +102,7 @@ class XMPP
         };
 
         this.room.onError = this.on_room_error;
+        this.room.onPresence = this.on_presence;
 
         this.room.join(this.nick, this.passwd);
     }
@@ -144,6 +146,13 @@ class XMPP
     {
         if (e.code == 409) { // nickname in use
             this.room.join(this.get_next_nick(), this.passwd);
+        }
+    }
+
+    private function on_presence(member:MUCOccupant)
+    {
+        if (member.nick == this.nick && member.role == xmpp.muc.Role.none) {
+            this.room.changeNick(this.nick);
         }
     }
 
