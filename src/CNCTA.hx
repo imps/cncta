@@ -21,11 +21,34 @@ class SecureXMPPConnection extends jabber.BOSHConnection
     }
 }
 
+class XMPPRoom extends jabber.client.MUChat
+{
+    private var password:String;
+
+    public override function join(nick:String, ?passwd:String):Bool
+    {
+        this.password = passwd;
+        return super.join(nick, passwd);
+    }
+
+    override function sendMyPresence(priority:Int = 5):xmpp.Presence
+    {
+        var x = xmpp.X.create(xmpp.MUC.XMLNS);
+        x.addChild(xmpp.XMLUtil.createElement("password", this.password));
+
+        var p = new xmpp.Presence(null, null, priority);
+        p.to = this.myjid;
+        p.properties.push(x);
+
+        return this.stream.sendPacket(p);
+    }
+}
+
 class XMPP
 {
     private var conn:SecureXMPPConnection;
     private var stream:jabber.client.Stream;
-    public var room:jabber.client.MUChat;
+    public var room:XMPPRoom;
 
     private var nick:String;
     private var channel:String;
@@ -59,7 +82,7 @@ class XMPP
 
     private function join_room()
     {
-        this.room = new jabber.client.MUChat(
+        this.room = new XMPPRoom(
             this.stream,
             "conference.headcounter.org",
             this.channel
