@@ -5,7 +5,7 @@
 // @namespace     https://github.com/aszlig/imps
 // @include       http://prodgame*.alliances.commandandconquer.com/*/index.*
 // @run_at        document-end
-// @version       0.2.1
+// @version       0.2.2
 // @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
@@ -13,6 +13,7 @@
 import xmpp.MessageType;
 import xmpp.muc.Affiliation;
 import jabber.sasl.AnonymousMechanism;
+import jabber.client.MUChat;
 
 class SecureXMPPConnection extends jabber.BOSHConnection
 {
@@ -22,7 +23,7 @@ class SecureXMPPConnection extends jabber.BOSHConnection
     }
 }
 
-class XMPPRoom extends jabber.client.MUChat
+class XMPPRoom extends MUChat
 {
     private var password:String;
 
@@ -36,6 +37,10 @@ class XMPPRoom extends jabber.client.MUChat
     {
         var x = xmpp.X.create(xmpp.MUC.XMLNS);
         x.addChild(xmpp.XMLUtil.createElement("password", this.password));
+
+        var history = Xml.createElement("history");
+        history.set("maxstanzas", "5");
+        x.addChild(history);
 
         var p = new xmpp.Presence(null, null, priority);
         p.to = this.myjid;
@@ -97,6 +102,7 @@ class XMPP
         };
 
         this.room.onError = this.on_room_error;
+        this.room.onPresence = this.on_presence;
 
         this.room.join(this.nick, this.passwd);
     }
@@ -140,6 +146,13 @@ class XMPP
     {
         if (e.code == 409) { // nickname in use
             this.room.join(this.get_next_nick(), this.passwd);
+        }
+    }
+
+    private function on_presence(member:MUCOccupant)
+    {
+        if (member.nick == this.nick && member.role == xmpp.muc.Role.none) {
+            this.room.changeNick(this.nick);
         }
     }
 
@@ -203,8 +216,8 @@ class ChatMessage
     //c = "@C";         // dunno?
     //c = "@CCC";       // dunno?
     //c = "@CCM";       // dunno?
-    //c = "@System";    // system message
-    //c = "@Info";      // info message
+    //s = "@System";    // system message
+    //s = "@Info";      // info message
     //c = "privatein";  // incoming private message
     //c = "privateout"; // outgoing private message
 
