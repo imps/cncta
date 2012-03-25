@@ -3,7 +3,7 @@
 // @author        aszlig
 // @description   A small tool which helps managing an alliance.
 // @namespace     https://github.com/aszlig/imps
-// @include       http://prodgame*.alliances.commandandconquer.com/*/index.aspx
+// @include       http://prodgame*.alliances.commandandconquer.com/*/index.*
 // @run_at        document-end
 // @version       0.2
 // @license       BSD3
