@@ -37,6 +37,10 @@ class XMPPRoom extends jabber.client.MUChat
         var x = xmpp.X.create(xmpp.MUC.XMLNS);
         x.addChild(xmpp.XMLUtil.createElement("password", this.password));
 
+        var history = Xml.createElement("history");
+        history.set("maxstanzas", "5");
+        x.addChild(history);
+
         var p = new xmpp.Presence(null, null, priority);
         p.to = this.myjid;
         p.properties.push(x);
