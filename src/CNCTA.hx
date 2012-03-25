@@ -190,8 +190,11 @@ class ChatMessage
     public var message:String;
 
     //c = "@A";         // alliance
+    //c = "@C";         // dunno?
     //c = "@CCC";       // dunno?
     //c = "@CCM";       // dunno?
+    //c = "@System";    // system message
+    //c = "@Info";      // info message
     //c = "privatein";  // incoming private message
     //c = "privateout"; // outgoing private message
 
