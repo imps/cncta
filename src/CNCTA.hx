@@ -234,59 +234,6 @@ class ChatMessage
     }
 }
 
-class CNCWatch
-{
-    private var _watcher:Void -> Bool;
-
-    public function new(watcher:Void -> Bool)
-    {
-        this._watcher = watcher;
-        this.on_timer();
-    }
-
-    private function on_timer()
-    {
-        if (this._watcher()) {
-            this.on_watch_ready();
-        } else {
-            haxe.Timer.delay(this.on_timer, 10);
-        }
-    }
-
-    public dynamic function on_watch_ready():Void {}
-}
-
-class CNCInitWatch extends CNCWatch
-{
-    public function new()
-    {
-        super(this.watcher);
-    }
-
-    private function watcher():Bool
-    {
-        var init_done = untyped
-            __js__("qx.core.Init.getApplication().initDone");
-        return init_done == true;
-    }
-}
-
-class PlayerWatch extends CNCWatch
-{
-    public function new()
-    {
-        super(this.watcher);
-    }
-
-    private function watcher():Bool
-    {
-        var player_name = untyped __js__(
-            "ClientLib.Data.MainData.GetInstance().get_Player().get_Name()"
-        );
-        return player_name;
-    }
-}
-
 class CNCTA
 {
     private var xmpp:XMPP;
@@ -307,7 +254,7 @@ class CNCTA
             return;
 
         this.is_running = true;
-        var watch = new CNCInitWatch();
+        var watch = new cncta.watchers.InitWatch();
         watch.on_watch_ready = this.start;
     }
 
@@ -342,7 +289,7 @@ class CNCTA
         chat_widget._onSizeMinimize();
         chat_widget.setVisibility("visible");
 
-        var watch_player = new PlayerWatch();
+        var watch_player = new cncta.watchers.PlayerWatch();
         watch_player.on_watch_ready = this.start_xmpp;
     }
 
