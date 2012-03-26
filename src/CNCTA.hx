@@ -292,6 +292,7 @@ class CNCTA
     private var xmpp:XMPP;
     private var maindata:cncta.inject.ClientLib;
     private var chatdata:cncta.inject.Chat;
+    private var ui:cncta.inject.ui.Application;
 
     private var _timer:haxe.Timer;
 
@@ -312,18 +313,12 @@ class CNCTA
         watch.on_watch_ready = this.start;
     }
 
-    private function get_chat_widget():Dynamic
-    {
-        var app = untyped __js__("qx.core.Init.getApplication()");
-        return app.getChat();
-    }
-
     private function on_new_message(xmpp_from, xmpp_msg)
     {
         switch (xmpp_msg.type) {
             case groupchat:
                 var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
-                this.get_chat_widget()._onNewMessage(msg.get_object());
+                this.ui.getChat()._onNewMessage(msg.get_object());
             default:
                 return;
         }
@@ -343,8 +338,9 @@ class CNCTA
     {
         this.maindata = untyped __js__("ClientLib.Data.MainData.GetInstance()");
         this.chatdata = this.maindata.get_Chat();
+        this.ui = untyped __js__("qx.core.Init.getApplication()");
 
-        var chat_widget = this.get_chat_widget();
+        var chat_widget = this.ui.getChat();
         chat_widget.chatPos.bottom = 0;
         chat_widget._onSizeMinimize();
         chat_widget.setVisibility("visible");
