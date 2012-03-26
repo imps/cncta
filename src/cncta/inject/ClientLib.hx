@@ -1,5 +1,6 @@
 package cncta.inject;
 
+@:native("ClientLib.Data.MainData")
 extern class ClientLib
 {
     public function get_Chat():cncta.inject.data.Chat;

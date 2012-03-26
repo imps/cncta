@@ -1,6 +1,6 @@
 package cncta.inject.ui;
 
-// webfrontend.Application
+@:native("webfrontend.Application")
 extern class Application
 {
     public function getChat():Chat;

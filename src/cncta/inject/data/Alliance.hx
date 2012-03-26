@@ -1,5 +1,6 @@
 package cncta.inject.data;
 
+@:native("ClientLib.Data.Alliance")
 extern class Alliance
 {
     public function get_Name():String;

@@ -1,6 +1,6 @@
 package cncta.inject.ui;
 
-// webfrontend.gui.Chat
+@:native("webfrontend.gui.Chat")
 extern class Chat extends Widget
 {
     public var chatPos:Dynamic;
