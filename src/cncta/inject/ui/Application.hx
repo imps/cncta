@@ -1,7 +1,9 @@
 package cncta.inject.ui;
 
-// webfrontend.Application
-extern class Application
+@:native("webfrontend.Application")
+extern class Application implements cncta.inject.qx.IApplication
 {
+    public var initDone:Bool;
+
     public function getChat():Chat;
 }

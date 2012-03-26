@@ -9,10 +9,8 @@ class PlayerWatch extends Watch
 
     private function watcher():Bool
     {
-        var player_name = untyped __js__(
-            "ClientLib.Data.MainData.GetInstance().get_Player().get_Name()"
-        );
-        return player_name;
+        var main_data = cncta.inject.MainData.GetInstance();
+        return cast main_data.get_Player().get_Name();
     }
 }
 

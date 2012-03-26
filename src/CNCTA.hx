@@ -14,7 +14,7 @@ class CNCTA
 {
     private var xmpp:cncta.xmpp.Chat;
 
-    private var maindata:cncta.inject.ClientLib;
+    private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
 
     private var is_running:Bool;
@@ -44,15 +44,17 @@ class CNCTA
         this.maindata.get_Chat().AddMsg = this.xmpp.send;
         this.xmpp.on_groupchat_message = this.on_new_message;
 
-        var eventReg = untyped __js__("qx.event.Registration");
-        eventReg.addListener(untyped __js__("window"), "shutdown",
-            this.xmpp.disconnect);
+        cncta.inject.qx.EventRegistration.addListener(
+            js.Lib.window,
+            "shutdown",
+            function(e) { this.xmpp.disconnect(); }
+        );
     }
 
     private function start()
     {
-        this.maindata = untyped __js__("ClientLib.Data.MainData.GetInstance()");
-        this.ui = untyped __js__("qx.core.Init.getApplication()");
+        this.maindata = cncta.inject.MainData.GetInstance();
+        this.ui = cast cncta.inject.qx.Init.getApplication();
 
         var chat_widget = this.ui.getChat();
         chat_widget.chatPos.bottom = 0;

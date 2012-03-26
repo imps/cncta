@@ -1,5 +1,7 @@
 package cncta.watchers;
 
+import cncta.inject.ui.Application;
+
 class InitWatch extends Watch
 {
     public function new()
@@ -9,8 +11,7 @@ class InitWatch extends Watch
 
     private function watcher():Bool
     {
-        var init_done = untyped
-            __js__("qx.core.Init.getApplication().initDone");
-        return init_done == true;
+        var app:Application = cast cncta.inject.qx.Init.getApplication();
+        return app.initDone == true;
     }
 }
