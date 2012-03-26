@@ -51,7 +51,7 @@ class CNCTA
 
     private function start()
     {
-        this.maindata = untyped __js__("ClientLib.Data.MainData.GetInstance()");
+        this.maindata = cncta.inject.MainData.GetInstance();
         this.ui = untyped __js__("qx.core.Init.getApplication()");
 
         var chat_widget = this.ui.getChat();
