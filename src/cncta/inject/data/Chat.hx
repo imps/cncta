@@ -1,4 +1,4 @@
-package cncta.inject;
+package cncta.inject.data;
 
 extern class Chat
 {

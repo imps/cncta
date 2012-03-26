@@ -2,8 +2,8 @@ package cncta.inject;
 
 extern class ClientLib
 {
-    public function get_Chat():Chat;
-    public function get_Player():Player;
-    public function get_Alliance():Alliance;
-    public function get_Server():Server;
+    public function get_Chat():cncta.inject.data.Chat;
+    public function get_Player():cncta.inject.data.Player;
+    public function get_Alliance():cncta.inject.data.Alliance;
+    public function get_Server():cncta.inject.data.Server;
 }
