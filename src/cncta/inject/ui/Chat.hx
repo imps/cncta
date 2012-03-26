@@ -1,5 +1,7 @@
 package cncta.inject.ui;
 
+import cncta.inject.qx.Widget;
+
 @:native("webfrontend.gui.Chat")
 extern class Chat extends Widget
 {
