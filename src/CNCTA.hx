@@ -14,7 +14,7 @@ class CNCTA
 {
     private var xmpp:cncta.xmpp.Chat;
 
-    private var maindata:cncta.inject.ClientLib;
+    private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
 
     private var is_running:Bool;
