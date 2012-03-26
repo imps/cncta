@@ -44,9 +44,11 @@ class CNCTA
         this.maindata.get_Chat().AddMsg = this.xmpp.send;
         this.xmpp.on_groupchat_message = this.on_new_message;
 
-        var eventReg = untyped __js__("qx.event.Registration");
-        eventReg.addListener(untyped __js__("window"), "shutdown",
-            this.xmpp.disconnect);
+        cncta.inject.qx.EventRegistration.addListener(
+            js.Lib.window,
+            "shutdown",
+            function(e) { this.xmpp.disconnect(); }
+        );
     }
 
     private function start()
