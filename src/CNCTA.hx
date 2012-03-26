@@ -294,8 +294,6 @@ class CNCTA
     private var maindata:cncta.inject.ClientLib;
     private var ui:cncta.inject.ui.Application;
 
-    private var _timer:haxe.Timer;
-
     private var is_running:Bool;
 
     public function new()
