@@ -290,8 +290,8 @@ class PlayerWatch extends CNCWatch
 class CNCTA
 {
     private var xmpp:XMPP;
+
     private var maindata:cncta.inject.ClientLib;
-    private var chatdata:cncta.inject.Chat;
     private var ui:cncta.inject.ui.Application;
 
     private var _timer:haxe.Timer;
@@ -326,7 +326,7 @@ class CNCTA
 
     private function add_chat_handlers()
     {
-        this.chatdata.AddMsg = this.xmpp.send;
+        this.maindata.get_Chat().AddMsg = this.xmpp.send;
         this.xmpp.room.onMessage = this.on_new_message;
 
         var eventReg = untyped __js__("qx.event.Registration");
@@ -337,7 +337,6 @@ class CNCTA
     private function start()
     {
         this.maindata = untyped __js__("ClientLib.Data.MainData.GetInstance()");
-        this.chatdata = this.maindata.get_Chat();
         this.ui = untyped __js__("qx.core.Init.getApplication()");
 
         var chat_widget = this.ui.getChat();
