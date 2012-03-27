@@ -3,12 +3,4 @@
 -js cncta.js
 -main CNCTA
 -lib hxmpp
--cmd sed -n '/\/\/.*==UserScript==/,/\/\/.*==\/UserScript==/p' src/CNCTA.hx > cncta.user.js
--cmd echo '(function(){' >> cncta.user.js
--cmd echo '    inject__ = document.createElement('\''script'\'');' >> cncta.user.js
--cmd echo '    inject__.type = "text/javascript";' >> cncta.user.js
--cmd echo '    inject__.appendChild(document.createTextNode("\' >> cncta.user.js
--cmd sed -e 's/["\\]/\\&/g' -e '$!s/$/\\n\\/' cncta.js >> cncta.user.js
--cmd echo '"));' >> cncta.user.js
--cmd echo 'document.getElementsByTagName('\''head'\'')[0].appendChild(inject__);' >> cncta.user.js
--cmd echo '})();' >> cncta.user.js
+--macro UserScript.generator()
