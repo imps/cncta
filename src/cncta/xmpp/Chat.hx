@@ -111,6 +111,8 @@ class Chat
     {
         switch (xmpp_msg.type) {
             case groupchat:
+                if (xmpp_from.nick == null || xmpp_msg.body == null)
+                    return;
                 var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
                 this.on_groupchat_message(msg);
             default:
@@ -166,7 +168,7 @@ class Chat
             // XXX: Just strip it by now, as we don't have global chat, yet.
             return text.substr(3);
         }
-        return text;
+        return StringTools.htmlEscape(text);
     }
 
     public function send(text:String)
