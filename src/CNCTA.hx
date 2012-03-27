@@ -7,7 +7,7 @@
 @version     ("0.2.3")
 @license     ("BSD3")
 @date        ("2012-03-21")
-class CNCTA implements UserScript
+class CNCTA implements userscript.UserScript
 {
     private var xmpp:cncta.xmpp.Chat;
 

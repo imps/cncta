@@ -1,38 +1,19 @@
-package;
+package userscript.macro;
 
-#if macro
 import haxe.macro.Type;
-#end
 
-class UserScript
-{
-    public static function main()
-    {
-    }
-
-#if macro
-    public static function generator()
-    {
-        haxe.macro.Compiler.setCustomJSGenerator(
-            function(js) new UserScriptGenerator(js).generate()
-        );
-    }
-#end
-}
-
-#if macro
-class UserScriptGenerator
+class Generator
 {
     private var js:haxe.macro.JSGenApi;
 
-    private var packages:userscript.Packages;
+    private var packages:Packages;
     private var constructor_calls:List<TypedExpr>;
 
     public function new(js:haxe.macro.JSGenApi)
     {
         this.js = js;
 
-        this.packages = new userscript.Packages();
+        this.packages = new Packages();
         this.constructor_calls = new List();
     }
 
@@ -78,5 +59,11 @@ class UserScriptGenerator
 
         //trace(this.js.generateConstructor(js.main.constructor.get().expr));
     }
+
+    public static function use()
+    {
+        haxe.macro.Compiler.setCustomJSGenerator(
+            function(js) new Generator(js).generate()
+        );
+    }
 }
-#end

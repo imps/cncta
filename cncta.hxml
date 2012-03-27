@@ -3,4 +3,4 @@
 -js cncta.js
 -main CNCTA
 -lib hxmpp
---macro UserScript.generator()
+--macro userscript.macro.Generator.use()

@@ -1,4 +1,4 @@
-package userscript;
+package userscript.macro;
 
 class PackageNode
 {
