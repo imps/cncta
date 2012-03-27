@@ -320,6 +320,10 @@ class CNCTA
 
     private function on_new_message(xmpp_from, xmpp_msg)
     {
+        if (xmpp_from == null || xmpp_msg == null) {
+            return;
+        }
+
         switch (xmpp_msg.type) {
             case groupchat:
                 if (xmpp_from.nick == null || xmpp_msg.body == null)
