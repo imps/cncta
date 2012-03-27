@@ -163,7 +163,7 @@ class XMPP
             // XXX: Just strip it by now, as we don't have global chat, yet.
             return text.substr(3);
         }
-        return text;
+        return StringTools.htmlEscape(text);
     }
 
     public function send(text:String)
