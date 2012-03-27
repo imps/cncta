@@ -109,6 +109,10 @@ class Chat
 
     private function on_message(xmpp_from:MUCOccupant, xmpp_msg:xmpp.Message)
     {
+        if (xmpp_from == null || xmpp_msg == null) {
+            return;
+        }
+
         switch (xmpp_msg.type) {
             case groupchat:
                 if (xmpp_from.nick == null || xmpp_msg.body == null)
