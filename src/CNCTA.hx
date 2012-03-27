@@ -322,6 +322,8 @@ class CNCTA
     {
         switch (xmpp_msg.type) {
             case groupchat:
+                if (xmpp_from.nick == null || xmpp_msg.body == null)
+                    return;
                 var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
                 this.get_chat_widget()._onNewMessage(msg.get_object());
             default:
