@@ -5,7 +5,7 @@
 // @namespace     https://github.com/imps/cncta
 // @include       http://prodgame*.alliances.commandandconquer.com/*/index.*
 // @run_at        document-end
-// @version       0.2.3
+// @version       0.2.4
 // @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
@@ -163,7 +163,7 @@ class XMPP
             // XXX: Just strip it by now, as we don't have global chat, yet.
             return text.substr(3);
         }
-        return text;
+        return StringTools.htmlEscape(text);
     }
 
     public function send(text:String)
@@ -322,6 +322,8 @@ class CNCTA
     {
         switch (xmpp_msg.type) {
             case groupchat:
+                if (xmpp_from.nick == null || xmpp_msg.body == null)
+                    return;
                 var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
                 this.get_chat_widget()._onNewMessage(msg.get_object());
             default:
