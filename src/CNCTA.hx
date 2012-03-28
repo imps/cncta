@@ -6,7 +6,7 @@
 // @include       https://prodgame*.alliances.commandandconquer.com/*
 // @include       http://prodgame*.alliances.commandandconquer.com/*
 // @run_at        document-end
-// @version       0.2.6
+// @version       0.2.7
 // @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
