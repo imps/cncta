@@ -3,9 +3,9 @@
 // @author        aszlig
 // @description   A small tool which helps managing an alliance.
 // @namespace     https://github.com/imps/cncta
-// @include       http://prodgame*.alliances.commandandconquer.com/*/index.*
+// @include       https://prodgame*.alliances.commandandconquer.com/*/index.*
 // @run_at        document-end
-// @version       0.2.5
+// @version       0.2.6
 // @license       BSD3
 // @date          2012-03-21
 // ==/UserScript==
