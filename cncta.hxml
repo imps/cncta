@@ -3,3 +3,6 @@
 -js cncta.js
 -main CNCTA
 -lib hxmpp
+--next
+-cp src
+--macro UserScript.generate("cncta.js", "cncta.user.js")

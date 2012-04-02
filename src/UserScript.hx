@@ -4,12 +4,37 @@ import haxe.macro.Expr;
 
 class UserScript
 {
-    public function new()
+#if macro
+    private var template:String;
+
+    public function new(template:String)
     {
-        trace(haxe.rtti.Meta.getType(UserScript));
+        this.template = neko.io.File.getContent(template);
     }
 
-#if macro
+    public function from_infile(infile:String)
+    {
+        this.template = StringTools.replace(
+            this.template,
+            "#CODE_HERE#",
+            neko.io.File.getContent(infile)
+        );
+    }
+
+    public function write(outfile:String)
+    {
+        var out = neko.io.File.write(outfile, false);
+        out.writeString(this.template);
+        out.close();
+    }
+
+    public static function generate(infile:String, outfile:String)
+    {
+        var script = new UserScript(outfile);
+        script.from_infile(infile);
+        script.write(outfile);
+    }
+
     public static function finalize_meta(name:String, value:String):String
     {
         return "// @" + name + " " + value + "\n";
