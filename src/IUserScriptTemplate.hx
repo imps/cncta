@@ -1,4 +1,4 @@
 interface IUserScriptTemplate
 {
-    public function generate(code:String):String;
+    public function generate():String;
 }

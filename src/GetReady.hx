@@ -1,10 +1,22 @@
 class GetReady implements IUserScriptTemplate
 {
-    public function new()
+    private var code:String;
+
+    public function new(code:String)
     {
+        this.code = code;
     }
 
-    private function get_watcher_on(teststr:String, code:String)
+    private inline function escape_code(code:String)
+    {
+        // TODO: do this in one pass someday...
+        var out = StringTools.replace(code, "\\", "\\\\");
+        out     = StringTools.replace(out,  "\n", "\\n");
+        out     = StringTools.replace(out,  "\"", "\\\"");
+        return "\"" + out + "\"";
+    }
+
+    private function get_watcher_on(teststr:String)
     {
         var out = "";
 
@@ -12,7 +24,7 @@ class GetReady implements IUserScriptTemplate
         out += "var wtimer__;";
         out += "function watch_timer__(){";
         out +=     "if(" + teststr + "){";
-        out +=         this.make_loader(code);
+        out +=         this.make_loader(this.escape_code(this.code));
         out +=         "window.clearInterval(wtimer__);";
         out +=     "}";
         out += "}";
@@ -39,8 +51,8 @@ class GetReady implements IUserScriptTemplate
         return out;
     }
 
-    public function generate(code:String):String
+    public function generate():String
     {
-        return this.get_watcher_on("typeof(webfrontend) == 'object'", code);
+        return this.get_watcher_on("typeof(webfrontend) == 'object'");
     }
 }

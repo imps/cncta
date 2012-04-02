@@ -11,19 +11,17 @@ class UserScript
         this.template = neko.io.File.getContent(template);
     }
 
-    public function from_infile(tpl:IUserScriptTemplate, infile:String)
+    public function from_infile(infile:String)
     {
         var code = new jsmin.JSMin(neko.io.File.getContent(infile)).output;
 
-        // escape inner javascript
-        code = StringTools.replace(code, "\\", "\\\\");
-        code = StringTools.replace(code, "\n", "\\n");
-        code = StringTools.replace(code, "\"", "\\\"");
+        // XXX: GetReady is hardcoded here, need to find a way to fix it...
+        var tpl:IUserScriptTemplate = new GetReady(code);
 
         this.template = StringTools.replace(
             this.template,
             "#CODE_HERE#",
-            tpl.generate("\"" + code + "\"")
+            tpl.generate()
         );
     }
 

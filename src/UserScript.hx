@@ -33,8 +33,7 @@ class UserScript
     public static function generate(infile:String, outfile:String)
     {
         var script = new macro.UserScript(outfile);
-        // XXX: GetReady is hardcoded here, need to find a way to fix it...
-        script.from_infile(new GetReady(), infile);
+        script.from_infile(infile);
         script.write(outfile);
     }
 #end
