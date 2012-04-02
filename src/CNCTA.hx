@@ -71,7 +71,15 @@ class CNCTA
             toolTipText: "Get BaseBuilder URL",
         });
 
+        bb_button.addListener("execute", this.on_basebuilder);
+
         buttons.addAt(bb_button, 3);
+    }
+
+    private function on_basebuilder()
+    {
+        var popup = new cncta.ui.BaseBuilder();
+        //popup.show();
     }
 
     private function get_alliance_hash():String
