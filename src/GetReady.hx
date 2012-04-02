@@ -7,6 +7,12 @@ class GetReady implements IUserScriptTemplate
         this.code = code;
     }
 
+    private function attach_loader()
+    {
+        var watcher = this.get_watcher_on("typeof(webfrontend) == 'object'");
+        return this.escape_code("loader.addFinishHandler(" + watcher + ")");
+    }
+
     private inline function escape_code(code:String)
     {
         // TODO: do this in one pass someday...
@@ -20,16 +26,16 @@ class GetReady implements IUserScriptTemplate
     {
         var out = "";
 
-        out += "(function() {";
-        out += "var wtimer__;";
+        out += "function() {";
+        out += "var wtimer__ = null;";
         out += "function watch_timer__(){";
         out +=     "if(" + teststr + "){";
         out +=         this.make_loader(this.escape_code(this.code));
         out +=         "window.clearInterval(wtimer__);";
         out +=     "}";
         out += "}";
-        out += "var wtimer__ = window.setInterval(watch_timer__, 1000);";
-        out += "})();";
+        out += "wtimer__ = window.setInterval(watch_timer__, 1000);";
+        out += "}";
 
         return out;
     }
@@ -53,6 +59,6 @@ class GetReady implements IUserScriptTemplate
 
     public function generate():String
     {
-        return this.get_watcher_on("typeof(webfrontend) == 'object'");
+        return this.make_loader(this.attach_loader());
     }
 }
