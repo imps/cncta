@@ -1,4 +1,4 @@
-package cncta.inject.ui;
+package cncta.inject.qx;
 
 @:native("qx.ui.form.Button")
 extern class Button extends Widget

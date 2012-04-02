@@ -62,9 +62,9 @@ class CNCTA
     {
         var navbar = this.ui.getNavigationBar();
         // dangerous... TODO: identify explicitly
-        var buttons:cncta.inject.ui.Composite = cast navbar.getChildren()[2];
+        var buttons:cncta.inject.qx.Composite = cast navbar.getChildren()[2];
 
-        var bb_button = new cncta.inject.ui.Button("BB", null).set({
+        var bb_button = new cncta.inject.qx.Button("BB", null).set({
             appearance: "button-friendlist-scroll",
             height: 24,
             width: 26,

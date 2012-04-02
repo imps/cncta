@@ -1,4 +1,4 @@
-package cncta.inject.ui;
+package cncta.inject.qx;
 
 @:native("qx.ui.container.Composite")
 extern class Composite extends Widget
