@@ -11,12 +11,14 @@ class UserScript
         this.template = neko.io.File.getContent(template);
     }
 
-    public function from_infile(infile:String)
+    public function from_infile(tpl:IUserScriptTemplate, infile:String)
     {
+        var code = new jsmin.JSMin(neko.io.File.getContent(infile)).output;
+
         this.template = StringTools.replace(
             this.template,
             "#CODE_HERE#",
-            new jsmin.JSMin(neko.io.File.getContent(infile)).output
+            tpl.generate(code)
         );
     }
 
