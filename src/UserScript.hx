@@ -53,7 +53,7 @@ class UserScript
 
     public static function generate_meta(meta:Metadata)
     {
-        var out = "// ==UserScript==";
+        var out = "// ==UserScript==\n";
 
         for (m in meta) {
             var name:String = m.name;
@@ -66,13 +66,13 @@ class UserScript
             }
         }
 
-        out += "// ==/UserScript==";
+        out += "// ==/UserScript==\n";
 
         return out;
     }
 #end
 
-    @:macro public static function extract_meta(uscls:String):Expr
+    @:macro public static function extract_meta(uscls:String, file:String):Expr
     {
         haxe.macro.Context.onGenerate(function (types) {
             for (type in types) {
@@ -81,12 +81,18 @@ class UserScript
                         var cls = c.get();
                         if (cls.name == uscls) {
                             var meta = cls.meta.get();
-                            trace(UserScript.generate_meta(meta));
+                            var usheader = UserScript.generate_meta(meta);
+                            usheader += "\n#CODE_HERE#\n";
+
+                            var outfile = neko.io.File.write(file, false);
+                            outfile.writeString(usheader);
+                            outfile.close();
                         }
                     default:
                 }
             }
         });
+
         var ret = EConst(CType("Void"));
         return {expr: ret, pos:haxe.macro.Context.currentPos()};
     }

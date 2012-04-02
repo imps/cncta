@@ -107,7 +107,7 @@ class CNCTA
 
     static function main()
     {
-        UserScript.extract_meta("CNCTA");
+        UserScript.extract_meta("CNCTA", "cncta.user.js");
 
         var cncta = new CNCTA();
         untyped __js__("loader.addFinishHandler")(
