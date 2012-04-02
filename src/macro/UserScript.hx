@@ -15,10 +15,15 @@ class UserScript
     {
         var code = new jsmin.JSMin(neko.io.File.getContent(infile)).output;
 
+        // escape inner javascript
+        code = StringTools.replace(code, "\\", "\\\\");
+        code = StringTools.replace(code, "\n", "\\n");
+        code = StringTools.replace(code, "\"", "\\\"");
+
         this.template = StringTools.replace(
             this.template,
             "#CODE_HERE#",
-            tpl.generate(code)
+            tpl.generate("\"" + code + "\"")
         );
     }
 
