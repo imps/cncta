@@ -52,8 +52,26 @@ class CNCTA
         chat_widget._onSizeMinimize();
         chat_widget.setVisibility("visible");
 
+        this.attach_basebuilder();
+
         var watch_player = new cncta.watchers.PlayerWatch();
         watch_player.on_watch_ready = this.start_xmpp;
+    }
+
+    private function attach_basebuilder()
+    {
+        var navbar = this.ui.getNavigationBar();
+        // dangerous... TODO: identify explicitly
+        var buttons:cncta.inject.ui.Composite = cast navbar.getChildren()[2];
+
+        var bb_button = new cncta.inject.ui.Button("BB", null).set({
+            appearance: "button-friendlist-scroll",
+            height: 24,
+            width: 26,
+            toolTipText: "Get BaseBuilder URL",
+        });
+
+        buttons.addAt(bb_button, 3);
     }
 
     private function get_alliance_hash():String
