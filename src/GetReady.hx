@@ -4,6 +4,24 @@ class GetReady implements IUserScriptTemplate
     {
     }
 
+    private function get_watcher_on(teststr:String, code:String)
+    {
+        var out = "";
+
+        out += "(function() {";
+        out += "var wtimer__;";
+        out += "function watch_timer__(){";
+        out +=     "if(" + teststr + "){";
+        out +=         this.make_loader(code);
+        out +=         "window.clearInterval(wtimer__);";
+        out +=     "}";
+        out += "}";
+        out += "var wtimer__ = window.setInterval(watch_timer__, 1000);";
+        out += "})();";
+
+        return out;
+    }
+
     private function make_loader(code:String)
     {
         var out = "";
@@ -23,6 +41,6 @@ class GetReady implements IUserScriptTemplate
 
     public function generate(code:String):String
     {
-        return this.make_loader(code);
+        return this.get_watcher_on("typeof(webfrontend) == 'object'", code);
     }
 }
