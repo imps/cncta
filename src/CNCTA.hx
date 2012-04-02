@@ -19,19 +19,8 @@ class CNCTA
     private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
 
-    private var is_running:Bool;
-
     public function new()
     {
-        this.is_running = false;
-    }
-
-    public function run()
-    {
-        if (this.is_running)
-            return;
-
-        this.is_running = true;
         var watch = new cncta.watchers.InitWatch();
         watch.on_watch_ready = this.start;
     }
@@ -109,9 +98,6 @@ class CNCTA
     {
         UserScript.extract_meta("CNCTA", "cncta.user.js");
 
-        var cncta = new CNCTA();
-        untyped __js__("loader.addFinishHandler")(
-            function() { cncta.run(); }
-        );
+        new CNCTA();
     }
 }
