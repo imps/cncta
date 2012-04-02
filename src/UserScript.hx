@@ -17,7 +17,7 @@ class UserScript
         this.template = StringTools.replace(
             this.template,
             "#CODE_HERE#",
-            neko.io.File.getContent(infile)
+            new jsmin.JSMin(neko.io.File.getContent(infile)).output
         );
     }
 
