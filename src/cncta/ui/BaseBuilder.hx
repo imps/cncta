@@ -37,10 +37,12 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
         this.addListener("appear", this.on_appear);
     }
 
-    private function set_bbid(id:String)
+    private function set_bbid(?id:String)
     {
         var url = "http://cncbasebuilder.appspot.com/";
-        url += "#" + id;
+
+        if (id != null)
+            url += "#" + id;
 
         var link = "<a href=\"#\" onClick=\"webfrontend.";
         link += "gui.Util.openLinkFromInnerHtml(this);\">";
@@ -88,6 +90,11 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
 
         var main = cncta.inject.MainData.GetInstance();
         var city = main.get_Cities().get_CurrentCity();
+
+        // no current city selected
+        if (city == null) {
+            return null;
+        }
 
         // prepopulate bbmap with base resource types
         while (bbmap.length < 72) {
