@@ -50,9 +50,60 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
         this.url_widget.setValue(link);
     }
 
+    private function structure2bb(building:Int)
+    {
+        var convertmap:IntHash<String> = new IntHash();
+        convertmap.set(1,   "B");
+        convertmap.set(2,   "8");
+        convertmap.set(5,   "9");
+        convertmap.set(10,  "7");
+        convertmap.set(16,  "A");
+        convertmap.set(24,  "B");
+        convertmap.set(32,  "4");
+        convertmap.set(34,  "D");
+        convertmap.set(35,  "C");
+        convertmap.set(36,  "E");
+        convertmap.set(40,  "F");
+        convertmap.set(42,  "G");
+        convertmap.set(80,  "I");
+        convertmap.set(81,  "J");
+
+        var converted = convertmap.get(building);
+
+        if (converted == null) {
+            return "0";
+        }
+
+        return converted;
+    }
+
     private function calculate_bbid():String
     {
-        return "todo";
+        var bbmap = new Array<Int>();
+
+        // prepopulate bbmap
+        while (bbmap.length < 72)
+            bbmap.push(0);
+
+        var main = cncta.inject.MainData.GetInstance();
+        var city = main.get_Cities().get_CurrentCity();
+        var buildings = city.get_CityBuildingsData();
+
+        for (building in buildings.m_Buildings.l) {
+            var type = building.get_Type();
+            var x = building.get_CoordX();
+            var y = building.get_CoordY();
+
+            bbmap[y * 9 + x] = type;
+            trace("building: " + type + " -> (" + x + ", " + y + ")");
+        }
+
+        var bbid = "";
+        for (building in bbmap) {
+            bbid += this.structure2bb(building);
+        }
+
+        return bbid;
     }
 
     private function on_appear()
