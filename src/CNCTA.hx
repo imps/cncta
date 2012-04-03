@@ -19,6 +19,8 @@ class CNCTA
     private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
 
+    private var basebuilder:cncta.ui.BaseBuilder;
+
     public function new()
     {
         var watch = new cncta.watchers.InitWatch();
@@ -52,8 +54,35 @@ class CNCTA
         chat_widget._onSizeMinimize();
         chat_widget.setVisibility("visible");
 
+        this.attach_basebuilder();
+
         var watch_player = new cncta.watchers.PlayerWatch();
         watch_player.on_watch_ready = this.start_xmpp;
+    }
+
+    private function attach_basebuilder()
+    {
+        var navbar = this.ui.getNavigationBar();
+        // dangerous... TODO: identify explicitly
+        var buttons:cncta.inject.qx.Composite = cast navbar.getChildren()[2];
+
+        var bb_button = new cncta.inject.qx.Button("BB", null).set({
+            appearance: "button-friendlist-scroll",
+            height: 24,
+            width: 26,
+            toolTipText: "Get BaseBuilder URL",
+        });
+
+        this.basebuilder = new cncta.ui.BaseBuilder();
+
+        bb_button.addListener("execute", this.on_basebuilder);
+
+        buttons.addAt(bb_button, 0);
+    }
+
+    private function on_basebuilder()
+    {
+        this.basebuilder.show();
     }
 
     private function get_alliance_hash():String
