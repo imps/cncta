@@ -11,7 +11,7 @@ class InitWatch extends Watch
 
     private function watcher():Bool
     {
-        var app:Application = cast cncta.inject.qx.Init.getApplication();
+        var app:Application = cast qx.core.Init.getApplication();
         return app.initDone == true;
     }
 }
