@@ -67,6 +67,8 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
         convertmap.set(42,  "G");
         convertmap.set(80,  "I");
         convertmap.set(81,  "J");
+        convertmap.set(400, "4");
+        convertmap.set(401, "5");
 
         var converted = convertmap.get(building);
 
@@ -93,6 +95,15 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
             var type = building.get_Type();
             var x = building.get_CoordX();
             var y = building.get_CoordY();
+
+            // special case: harvester
+            if (type == 32) {
+                switch (building.get_ProductionModifierTypeDBId()) {
+                    case 1: type = 400; // harvester tiberium
+                    case 4: type = 401; // harvester crystal
+                    default:
+                }
+            }
 
             bbmap[y * 9 + x] = type;
             trace("building: " + type + " -> (" + x + ", " + y + ")");
