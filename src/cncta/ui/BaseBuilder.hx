@@ -67,6 +67,7 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
         convertmap.set(42,  "G");
         convertmap.set(80,  "I");
         convertmap.set(81,  "J");
+        convertmap.set(82,  "H");
         convertmap.set(301, "2");
         convertmap.set(302, "1");
         convertmap.set(401, "5");
