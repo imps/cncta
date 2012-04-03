@@ -1,6 +1,5 @@
-package cncta.inject.qx;
+package qx.ui.basic;
 
-@:native("qx.ui.basic.Label")
 extern class Label extends Widget
 {
     public function new(?value:String):Void;

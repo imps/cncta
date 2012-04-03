@@ -1,6 +1,5 @@
-package cncta.inject.qx;
+package qx.ui.container;
 
-@:native("qx.ui.container.Composite")
 extern class Composite extends Widget
 {
     public function getChildren():Array<LayoutItem>;

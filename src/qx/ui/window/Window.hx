@@ -1,6 +1,5 @@
-package cncta.inject.qx;
+package qx.ui.window;
 
-@:native("qx.ui.window")
 extern class Window extends Widget
 {
     public function new(title:String, ?icon:String):Void;

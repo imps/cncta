@@ -1,6 +1,5 @@
-package cncta.inject.qx;
+package qx.core;
 
-@:native("qx.core.Init")
 extern class Init
 {
     public static function getApplication():IApplication;

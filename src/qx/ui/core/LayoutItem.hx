@@ -1,6 +1,5 @@
-package cncta.inject.qx;
+package qx.ui.core;
 
-@:native("qx.ui.core.LayoutItem")
 extern class LayoutItem
 {
     // these methods really are in qx.core.Object, but we don't want to

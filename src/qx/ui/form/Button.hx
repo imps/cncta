@@ -1,6 +1,5 @@
-package cncta.inject.qx;
+package qx.ui.form;
 
-@:native("qx.ui.form.Button")
 extern class Button extends Widget
 {
     public function new(label:String, icon:String):Void;
