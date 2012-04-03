@@ -77,7 +77,7 @@ class CNCTA
 
         bb_button.addListener("execute", this.on_basebuilder);
 
-        buttons.addAt(bb_button, 0);
+        buttons.addAt(cast bb_button, 0);
     }
 
     private function on_basebuilder()
