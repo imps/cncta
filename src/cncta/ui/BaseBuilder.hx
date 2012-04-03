@@ -67,8 +67,10 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
         convertmap.set(42,  "G");
         convertmap.set(80,  "I");
         convertmap.set(81,  "J");
-        convertmap.set(400, "4");
+        convertmap.set(301, "2");
+        convertmap.set(302, "1");
         convertmap.set(401, "5");
+        convertmap.set(402, "4");
 
         var converted = convertmap.get(building);
 
@@ -83,12 +85,18 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
     {
         var bbmap = new Array<Int>();
 
-        // prepopulate bbmap
-        while (bbmap.length < 72)
-            bbmap.push(0);
-
         var main = cncta.inject.MainData.GetInstance();
         var city = main.get_Cities().get_CurrentCity();
+
+        // prepopulate bbmap with base resource types
+        while (bbmap.length < 72) {
+            var restype = city.GetResourceType(
+                bbmap.length % 9,
+                Std.int(bbmap.length / 9)
+            );
+            bbmap.push(restype > 0 ? restype + 300 : 0);
+        }
+
         var buildings = city.get_CityBuildingsData();
 
         for (building in buildings.m_Buildings.l) {
@@ -96,16 +104,14 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
             var x = building.get_CoordX();
             var y = building.get_CoordY();
 
-            // special case: harvester
-            if (type == 32) {
-                switch (building.get_ProductionModifierTypeDBId()) {
-                    case 1: type = 400; // harvester tiberium
-                    case 4: type = 401; // harvester crystal
-                    default:
+            if (bbmap[y * 9 + x] >= 300) {
+                if (type == 32) {
+                    bbmap[y * 9 + x] += 100;
                 }
+            } else {
+                bbmap[y * 9 + x] = type;
             }
 
-            bbmap[y * 9 + x] = type;
             trace("building: " + type + " -> (" + x + ", " + y + ")");
         }
 
