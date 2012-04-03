@@ -55,7 +55,7 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
     private function structure2bb(building:Int)
     {
         var convertmap:IntHash<String> = new IntHash();
-        convertmap.set(1,   "B");
+        convertmap.set(1,   "6");
         convertmap.set(2,   "8");
         convertmap.set(5,   "9");
         convertmap.set(10,  "7");
