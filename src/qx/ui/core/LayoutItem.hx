@@ -1,9 +1,5 @@
 package qx.ui.core;
 
-extern class LayoutItem
+extern class LayoutItem extends qx.core.Object
 {
-    // these methods really are in qx.core.Object, but we don't want to
-    // implement a full Qooxdoo binding, do we?
-    public function set(data:Dynamic):LayoutItem;
-    public function addListener(type:String, listener:Void -> Void):String;
 }
