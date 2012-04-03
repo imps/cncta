@@ -19,6 +19,8 @@ class CNCTA
     private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
 
+    private var basebuilder:cncta.ui.BaseBuilder;
+
     public function new()
     {
         var watch = new cncta.watchers.InitWatch();
@@ -71,15 +73,16 @@ class CNCTA
             toolTipText: "Get BaseBuilder URL",
         });
 
+        this.basebuilder = new cncta.ui.BaseBuilder();
+
         bb_button.addListener("execute", this.on_basebuilder);
 
-        buttons.addAt(bb_button, 3);
+        buttons.addAt(bb_button, 0);
     }
 
     private function on_basebuilder()
     {
-        var popup = new cncta.ui.BaseBuilder();
-        //popup.show();
+        this.basebuilder.show();
     }
 
     private function get_alliance_hash():String
