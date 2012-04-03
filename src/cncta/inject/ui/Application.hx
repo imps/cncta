@@ -1,11 +1,11 @@
 package cncta.inject.ui;
 
 @:native("webfrontend.Application")
-extern class Application implements cncta.inject.qx.IApplication
+extern class Application implements qx.application.IApplication
 {
     public var initDone:Bool;
 
     public function getChat():Chat;
     public function getNavigationBar():CitiesNavigationBar;
-    public function getDesktop():cncta.inject.qx.Widget;
+    public function getDesktop():qx.ui.core.Widget;
 }

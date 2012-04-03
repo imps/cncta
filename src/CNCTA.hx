@@ -37,7 +37,7 @@ class CNCTA
         this.maindata.get_Chat().AddMsg = this.xmpp.send;
         this.xmpp.on_groupchat_message = this.on_new_message;
 
-        cncta.inject.qx.EventRegistration.addListener(
+        qx.event.Registration.addListener(
             js.Lib.window,
             "shutdown",
             function(e) { this.xmpp.disconnect(); }
@@ -47,7 +47,7 @@ class CNCTA
     private function start()
     {
         this.maindata = cncta.inject.MainData.GetInstance();
-        this.ui = cast cncta.inject.qx.Init.getApplication();
+        this.ui = cast qx.core.Init.getApplication();
 
         var chat_widget = this.ui.getChat();
         chat_widget.chatPos.bottom = 0;
@@ -64,9 +64,9 @@ class CNCTA
     {
         var navbar = this.ui.getNavigationBar();
         // dangerous... TODO: identify explicitly
-        var buttons:cncta.inject.qx.Composite = cast navbar.getChildren()[2];
+        var buttons:qx.ui.container.Composite = cast navbar.getChildren()[2];
 
-        var bb_button = new cncta.inject.qx.Button("BB", null).set({
+        var bb_button = new qx.ui.form.Button("BB", null).set({
             appearance: "button-friendlist-scroll",
             height: 24,
             width: 26,

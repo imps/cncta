@@ -2,7 +2,7 @@ package cncta.ui;
 
 class BaseBuilder extends cncta.inject.ui.CustomWindow
 {
-    private var url_widget:cncta.inject.qx.Label;
+    private var url_widget:qx.ui.basic.Label;
 
     public override function new()
     {
@@ -20,7 +20,7 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
 
         untyped __js__("this.setLayout(new qx.ui.layout.VBox())");
 
-        this.url_widget = new cncta.inject.qx.Label();
+        this.url_widget = new qx.ui.basic.Label();
         this.url_widget.setDecorator("pane-comment");
         this.url_widget.set({
             selectable: true,

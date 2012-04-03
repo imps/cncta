@@ -1,9 +1,7 @@
 package cncta.inject.ui;
 
-import cncta.inject.qx.Widget;
-
 @:native("webfrontend.gui.Chat")
-extern class Chat extends Widget
+extern class Chat extends qx.ui.core.Widget
 {
     public var chatPos:Dynamic;
     public var chatSize:Array<{width:Int, height:Int}>;
