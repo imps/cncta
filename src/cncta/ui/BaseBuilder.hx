@@ -119,8 +119,6 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
             } else {
                 bbmap[y * 9 + x] = type;
             }
-
-            trace("building: " + type + " -> (" + x + ", " + y + ")");
         }
 
         var bbid = "";
