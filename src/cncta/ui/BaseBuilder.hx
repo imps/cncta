@@ -18,7 +18,7 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
             showClose: true,
         });
 
-        untyped __js__("this.setLayout(new qx.ui.layout.VBox())");
+        this.setLayout(new qx.ui.layout.VBox(10));
 
         this.url_widget = new qx.ui.basic.Label();
         this.url_widget.setDecorator("pane-comment");
