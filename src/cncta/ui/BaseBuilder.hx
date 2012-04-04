@@ -132,6 +132,7 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
     private function on_appear()
     {
         this.set_bbid(this.calculate_bbid());
+        this.centerPosition();
         this.bringToFront();
     }
 }
