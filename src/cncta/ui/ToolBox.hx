@@ -25,7 +25,12 @@ class ToolBox extends qx.ui.container.Composite
     private function add_window_button(label:String, tooltip:String,
                                        window:qx.ui.window.Window)
     {
-        var listener = function() { window.show(); };
+        var listener = function() {
+            if (window.isVisible())
+                window.close();
+            else
+                window.open();
+        };
         this.add_button(label, tooltip, listener);
     }
 
