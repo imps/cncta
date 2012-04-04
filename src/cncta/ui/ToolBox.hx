@@ -16,6 +16,12 @@ class ToolBox extends qx.ui.container.Composite
     private inline function attach_buttons()
     {
         this.add_window_button(
+            "Chat",
+            "Open chat",
+            new ChatWindow()
+        );
+
+        this.add_window_button(
             "Base Builder",
             "Get BaseBuilder URL",
             new BaseBuilder()
