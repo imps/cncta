@@ -40,7 +40,7 @@ class ToolBox extends qx.ui.container.Composite
         var icon = "FractionUI/icons/cht_opt_maximize.gif";
 
         var button = new qx.ui.form.Button(label, icon);
-        button.set({height: 24, toolTipText: tooltip});
+        button.set({height: 24, toolTipText: tooltip, center: false});
         button.addListener("execute", listener);
 
         this.buttons.add(cast button);
