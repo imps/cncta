@@ -7,5 +7,6 @@ extern class Application implements qx.application.IApplication
 
     public function getChat():Chat;
     public function getNavigationBar():CitiesNavigationBar;
+    public function getAppointmentsBar():AppointmentsBar;
     public function getDesktop():qx.ui.core.Widget;
 }
