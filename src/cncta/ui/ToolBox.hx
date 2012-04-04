@@ -8,7 +8,7 @@ class ToolBox extends qx.ui.container.Composite
     {
         super(new qx.ui.layout.Canvas());
 
-        this.buttons = new qx.ui.container.Composite(new qx.ui.layout.HBox(2));
+        this.buttons = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
         this.attach_buttons();
         this.add(this.buttons, {right: 0, top: 0});
     }
