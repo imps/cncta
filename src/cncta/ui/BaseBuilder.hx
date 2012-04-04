@@ -6,13 +6,15 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
 
     public override function new()
     {
-        super("Base Builder");
+        super("The Base Builder URL for the current base is:");
+
         this.set({
             allowMaximize: false,
             allowMinimize: false,
             showMaximize: false,
             showMinimize: false,
             showStatusbar: false,
+            resizable: false,
             movable: true,
             alwaysOnTop: true,
             showClose: true,
@@ -21,18 +23,14 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
         this.setLayout(new qx.ui.layout.VBox(10));
 
         this.url_widget = new qx.ui.basic.Label();
-        this.url_widget.setDecorator("pane-comment");
+
         this.url_widget.set({
+            padding: 10,
             selectable: true,
             rich: true,
         });
 
-        this.add(url_widget, {
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-        });
+        this.add(this.url_widget);
 
         this.addListener("appear", this.on_appear);
     }
@@ -45,7 +43,8 @@ class BaseBuilder extends cncta.inject.ui.CustomWindow
             url += "#" + id;
 
         var link = "<a href=\"#\" onClick=\"webfrontend.";
-        link += "gui.Util.openLinkFromInnerHtml(this);\">";
+        link += "gui.Util.openLinkFromInnerHtml(this);\"";
+        link += " style=\"color:#ffffff\">";
         link += url;
         link += "</a>";
 
