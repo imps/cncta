@@ -113,11 +113,20 @@ class Chat
             return;
         }
 
+        var date:Date;
+        var delay = xmpp.Delayed.fromPacket(xmpp_msg);
+        if (delay == null) {
+            date = Date.now();
+        } else {
+            var tz = untyped Date.now().getTimezoneOffset() * 60000;
+            date = DateTools.delta(xmpp.DateTime.toDate(delay.stamp), -tz);
+        }
+
         switch (xmpp_msg.type) {
             case groupchat:
                 if (xmpp_from.nick == null || xmpp_msg.body == null)
                     return;
-                var msg = new ChatMessage(xmpp_from.nick, xmpp_msg.body);
+                var msg = new ChatMessage(xmpp_from.nick, date, xmpp_msg.body);
                 this.on_groupchat_message(msg);
             default:
                 return;

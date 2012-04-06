@@ -4,6 +4,7 @@ class ChatMessage
 {
     public var content:String;
     public var sender:String;
+    public var date:Date;
     public var message:String;
 
     //c = "@A";         // alliance
@@ -15,10 +16,11 @@ class ChatMessage
     //c = "privatein";  // incoming private message
     //c = "privateout"; // outgoing private message
 
-    public function new(sender:String, msg:String)
+    public function new(sender:String, date:Date, msg:String)
     {
         this.content = "@A";
         this.sender = sender;
+        this.date = date;
         this.message = msg;
     }
 
