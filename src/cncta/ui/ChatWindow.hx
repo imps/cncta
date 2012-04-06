@@ -29,10 +29,15 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
         this.add(this.view);
         this.add(this.input);
 
-        this.input.on_send = function(text) {
-            this.add_message("foo", text);
-        };
+        this.input.on_send = this.message_input;
     }
+
+    private inline function message_input(text:String)
+    {
+        this.on_send(text);
+    }
+
+    public dynamic function on_send(text:String):Void {}
 
     public inline function add_message(nick:String, text:String)
     {

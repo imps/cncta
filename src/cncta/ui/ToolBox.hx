@@ -9,27 +9,11 @@ class ToolBox extends qx.ui.container.Composite
         super(new qx.ui.layout.Canvas());
 
         this.buttons = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
-        this.attach_buttons();
         this.add(this.buttons, {right: 0, top: 0});
     }
 
-    private inline function attach_buttons()
-    {
-        this.add_window_button(
-            "Chat",
-            "Open chat",
-            new ChatWindow()
-        );
-
-        this.add_window_button(
-            "Base Builder",
-            "Get BaseBuilder URL",
-            new BaseBuilder()
-        );
-    }
-
-    private function add_window_button(label:String, tooltip:String,
-                                       window:qx.ui.window.Window)
+    public function add_window_button(label:String, tooltip:String,
+                                      window:qx.ui.window.Window)
     {
         var listener = function() {
             if (window.isVisible())
