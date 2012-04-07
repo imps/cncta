@@ -11,4 +11,7 @@ extern class Widget extends LayoutItem
     public function show():Void;
     public function hide():Void;
     public function isVisible():Bool;
+
+    public function focus():Void;
+    public function blur():Void;
 }

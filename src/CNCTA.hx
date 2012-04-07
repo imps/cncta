@@ -19,6 +19,9 @@ class CNCTA
     private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
 
+    private var chatwin:cncta.ui.ChatWindow;
+    private var toolbox:cncta.ui.ToolBox;
+
     public function new()
     {
         var watch = new cncta.watchers.InitWatch();
@@ -27,13 +30,13 @@ class CNCTA
 
     private function on_new_message(msg:cncta.xmpp.ChatMessage)
     {
-        this.ui.getChat()._onNewMessage(msg.get_object());
+        this.chatwin.add_message(msg.sender, msg.date, msg.message);
     }
 
     private function add_chat_handlers()
     {
-        this.maindata.get_Chat().AddMsg = this.xmpp.send;
         this.xmpp.on_groupchat_message = this.on_new_message;
+        this.chatwin.on_send = this.xmpp.send;
 
         qx.event.Registration.addListener(
             js.Lib.window,
@@ -42,18 +45,34 @@ class CNCTA
         );
     }
 
+    private inline function attach2toolbox()
+    {
+        this.chatwin = new cncta.ui.ChatWindow();
+
+        this.toolbox.add_window_button(
+            "Alliance Chat",
+            "Open alliance chat",
+            this.chatwin
+        );
+
+        this.toolbox.add_window_button(
+            "Base Builder",
+            "Get BaseBuilder URL",
+            new cncta.ui.BaseBuilder()
+        );
+    }
+
     private function start()
     {
         this.maindata = cncta.inject.MainData.GetInstance();
         this.ui = cast qx.core.Init.getApplication();
 
-        var chat_widget = this.ui.getChat();
-        chat_widget.chatPos.bottom = 0;
-        chat_widget._onSizeMinimize();
-        chat_widget.setVisibility("visible");
-
         var navbar = this.ui.getAppointmentsBar();
-        navbar.add(new cncta.ui.ToolBox());
+
+        this.toolbox = new cncta.ui.ToolBox();
+        navbar.add(this.toolbox);
+
+        this.attach2toolbox();
 
         var watch_player = new cncta.watchers.PlayerWatch();
         watch_player.on_watch_ready = this.start_xmpp;
@@ -94,6 +113,8 @@ class CNCTA
 
         this.xmpp = new cncta.xmpp.Chat(nick, this.get_channel_name(), passwd);
         this.xmpp.on_joined = this.add_chat_handlers;
+        this.xmpp.on_enter = this.chatwin.on_enter;
+        this.xmpp.on_leave = this.chatwin.on_leave;
         this.xmpp.connect();
     }
 
