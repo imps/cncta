@@ -113,6 +113,8 @@ class CNCTA
 
         this.xmpp = new cncta.xmpp.Chat(nick, this.get_channel_name(), passwd);
         this.xmpp.on_joined = this.add_chat_handlers;
+        this.xmpp.on_enter = this.chatwin.on_enter;
+        this.xmpp.on_leave = this.chatwin.on_leave;
         this.xmpp.connect();
     }
 
