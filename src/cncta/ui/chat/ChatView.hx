@@ -6,6 +6,8 @@ class ChatView extends qx.ui.container.Composite
     private var view:qx.ui.container.Composite;
     private var lines:Int;
 
+    public var roster:ChatRoster;
+
     public function new()
     {
         super(new qx.ui.layout.HBox(2));
@@ -23,6 +25,9 @@ class ChatView extends qx.ui.container.Composite
         });
 
         this.add(this.scroller, {flex: 1});
+
+        this.roster = new ChatRoster();
+        this.add(this.roster);
 
         this.addListener("resize", this.scroll_down);
     }

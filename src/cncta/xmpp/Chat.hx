@@ -63,6 +63,8 @@ class Chat
 
     public dynamic function on_joined():Void {}
     public dynamic function on_groupchat_message(m:ChatMessage):Void {}
+    public dynamic function on_enter(nick:String):Void {}
+    public dynamic function on_leave(nick:String):Void {}
 
     public function connect()
     {
@@ -89,6 +91,7 @@ class Chat
             if (this.room.affiliation == owner) {
                 this.configure_room();
             }
+            this.on_enter(this.room.nick);
             this.on_joined();
         };
 
@@ -169,8 +172,14 @@ class Chat
 
     private function on_presence(member:MUCOccupant)
     {
-        if (member.nick == this.nick && member.role == xmpp.muc.Role.none) {
-            this.room.changeNick(this.nick);
+        if (member.presence.status == "unavailable") {
+            if (member.nick == this.nick) {
+                this.room.changeNick(this.nick);
+            }
+
+            this.on_leave(member.nick);
+        } else {
+            this.on_enter(member.nick);
         }
     }
 
