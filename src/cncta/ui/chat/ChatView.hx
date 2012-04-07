@@ -23,7 +23,7 @@ class ChatView extends qx.ui.container.Composite
 
         this.scroller = new qx.ui.container.Scroll(this.view);
         this.scroller.set({
-            minWidth: 200,
+            minWidth: 300,
             minHeight: 50,
             scrollbarY: "on",
         });
