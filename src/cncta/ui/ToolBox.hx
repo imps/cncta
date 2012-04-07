@@ -1,5 +1,7 @@
 package cncta.ui;
 
+import qx.ui.form.Button;
+
 class ToolBox extends qx.ui.container.Composite
 {
     private var buttons:qx.ui.container.Composite;
@@ -21,18 +23,28 @@ class ToolBox extends qx.ui.container.Composite
             else
                 window.open();
         };
-        this.add_button(label, tooltip, listener);
+
+        var button = this.add_button(label, tooltip, listener);
+
+        window.addListener("flash", function() {
+            button.setIcon("FractionUI/icons/cht_opt_maximize_b.gif");
+        });
+
+        window.addListener("unflash", function() {
+            button.setIcon("FractionUI/icons/cht_opt_maximize.gif");
+        });
     }
 
     private function add_button(label:String, tooltip:String,
-                                listener:Void -> Void)
+                                listener:Void -> Void):Button
     {
         var icon = "FractionUI/icons/cht_opt_maximize.gif";
 
-        var button = new qx.ui.form.Button(label, icon);
+        var button = new Button(label, icon);
         button.set({height: 24, toolTipText: tooltip, center: false});
         button.addListener("execute", listener);
 
         this.buttons.add(cast button);
+        return button;
     }
 }

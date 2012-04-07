@@ -47,6 +47,7 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
 
     private function on_appear()
     {
+        this.fireEvent("unflash");
         this.input.set_focus();
         this.centerPosition();
         this.bringToFront();
@@ -62,5 +63,9 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
     public inline function add_message(nick:String, date:Date, text:String)
     {
         this.view.add_message(nick, date, text);
+
+        if (!this.isVisible()) {
+            this.fireEvent("flash");
+        }
     }
 }
