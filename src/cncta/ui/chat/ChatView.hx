@@ -23,11 +23,18 @@ class ChatView extends qx.ui.container.Composite
         });
 
         this.add(this.scroller, {flex: 1});
+
+        this.addListener("resize", this.scroll_down);
     }
 
     private function color(color:String, value:String)
     {
         return "<span style=\"color:" + color + "\">" + value + "</span>";
+    }
+
+    private function scroll_down()
+    {
+        this.scroller.scrollToY(500000);
     }
 
     public function add_message(nick:String, date:Date, text:String)
@@ -51,6 +58,6 @@ class ChatView extends qx.ui.container.Composite
             this.view.removeAt(0);
         }
 
-        this.scroller.scrollToY(500000);
+        this.scroll_down();
     }
 }
