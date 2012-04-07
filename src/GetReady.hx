@@ -15,7 +15,7 @@ class GetReady implements IUserScriptTemplate
         attach += "__finish_handler = " + watcher + ";";
         attach += "if (typeof(loader) != 'undefined')";
         attach +=     "loader.addFinishHandler(__finish_handler);";
-        attach += "else ";
+        attach += "else if(typeof(window.loader) != 'undefined')";
         attach +=     "window.loader.addFinishHandler(__finish_handler)";
 
         return this.escape_code(attach);
