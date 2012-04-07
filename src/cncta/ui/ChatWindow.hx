@@ -26,7 +26,7 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
         this.view = new cncta.ui.chat.ChatView();
         this.input = new cncta.ui.chat.ChatInput();
 
-        this.add(this.view);
+        this.add(this.view, {flex: 1});
         this.add(this.input);
 
         this.input.on_send = this.message_input;

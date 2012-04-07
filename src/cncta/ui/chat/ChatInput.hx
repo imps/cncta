@@ -12,6 +12,7 @@ class ChatInput extends qx.ui.container.Composite
         this.chatline = new qx.ui.form.TextField();
         this.chatline.set({
             appearance: "chat-textfield",
+            allowGrowX: true,
         });
 
         this.chatline.addListener("keypress", this.on_chatinput);
@@ -23,7 +24,7 @@ class ChatInput extends qx.ui.container.Composite
 
         this.sendbutton.addListener("execute", this.on_submit);
 
-        this.add(this.chatline);
+        this.add(this.chatline, {flex: 1});
         this.add(this.sendbutton);
     }
 
