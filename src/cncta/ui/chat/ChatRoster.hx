@@ -19,7 +19,7 @@ class ChatRoster extends qx.ui.container.Scroll
         if (this.nickmap.exists(ident))
             return;
 
-        var text = "<span style=\"color:#ffffff\">" + nick + "</span>";
+        var text = "<span style=\"color:#ffff00\">" + nick + "</span>";
         var label = new qx.ui.basic.Label(text);
         label.set({rich: true});
         this.nickmap.set(ident, label);
