@@ -30,7 +30,7 @@ class CNCTA
 
     private function on_new_message(msg:cncta.xmpp.ChatMessage)
     {
-        this.chatwin.add_message(msg.sender, msg.message);
+        this.chatwin.add_message(msg.sender, msg.date, msg.message);
     }
 
     private function add_chat_handlers()

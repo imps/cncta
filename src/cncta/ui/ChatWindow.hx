@@ -47,8 +47,8 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
 
     public dynamic function on_send(text:String):Void {}
 
-    public inline function add_message(nick:String, text:String)
+    public inline function add_message(nick:String, date:Date, text:String)
     {
-        this.view.add_message(nick, text);
+        this.view.add_message(nick, date, text);
     }
 }
