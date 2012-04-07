@@ -25,15 +25,19 @@ class ChatView extends qx.ui.container.Composite
         this.add(this.scroller, {flex: 1});
     }
 
+    private function color(color:String, value:String)
+    {
+        return "<span style=\"color:" + color + "\">" + value + "</span>";
+    }
+
     public function add_message(nick:String, date:Date, text:String)
     {
         var time = DateTools.format(date, "%H:%M:%S");
 
-        // they're using <font/> in C&C TA, so we can do it, too? O_o
-        var fullmsg = "<font color=\"#00ff00\">[" + time + "]</font>";
-        fullmsg += " <font color=\"#66ffff\">" + nick + "</font>";
-        fullmsg += "<font color=\"#00cc00\">:</font>";
-        fullmsg += " <font color=\"#ffffff\">" + text + "</font>";
+        var fullmsg = this.color("#00ff00", "[" + time + "]");
+        fullmsg += " " + this.color("#66ffff", nick);
+        fullmsg += this.color("#00cc00", ":");
+        fullmsg += " " + this.color("#ffffff", text);
 
         var line = new qx.ui.basic.Label(fullmsg);
         line.set({
