@@ -29,7 +29,16 @@ class CNCTA
 
     private function on_new_message(msg:cncta.xmpp.ChatMessage)
     {
-        this.chatwin.add_message(msg.sender, msg.date, msg.message);
+        var nick_color = null;
+        if (msg.myself)
+            nick_color = "#ff5050";
+
+        this.chatwin.add_message(
+            msg.sender,
+            msg.date,
+            msg.message,
+            nick_color
+        );
     }
 
     private function add_chat_handlers()

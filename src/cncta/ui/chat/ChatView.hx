@@ -42,14 +42,15 @@ class ChatView extends qx.ui.container.Composite
         this.scroller.scrollToY(500000);
     }
 
-    public function add_message(nick:String, date:Date, text:String)
+    public function add_message(nick:String, date:Date, text:String,
+                                ?nick_color:String = "#66ffff")
     {
         var time = DateTools.format(date, "%H:%M:%S");
 
         var bbtext = cncta.inject.Util.convertBBCode(text, true, "#ff9900");
 
         var fullmsg = this.color("#00ff00", "[" + time + "]");
-        fullmsg += " " + this.color("#66ffff", nick);
+        fullmsg += " " + this.color(nick_color, nick);
         fullmsg += this.color("#00cc00", ":");
         fullmsg += " " + this.color("#ffffff", bbtext);
 

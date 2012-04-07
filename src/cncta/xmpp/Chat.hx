@@ -129,7 +129,10 @@ class Chat
             case groupchat:
                 if (xmpp_from.nick == null || xmpp_msg.body == null)
                     return;
-                var msg = new ChatMessage(xmpp_from.nick, date, xmpp_msg.body);
+                var nick = xmpp_from.nick;
+                var body = xmpp_msg.body;
+                var myself = this.room.nick == nick;
+                var msg = new ChatMessage(myself, nick, date, body);
                 this.on_groupchat_message(msg);
             default:
                 return;
