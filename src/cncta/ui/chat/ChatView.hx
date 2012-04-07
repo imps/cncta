@@ -3,23 +3,17 @@ package cncta.ui.chat;
 class ChatView extends qx.ui.container.Composite
 {
     private var scroller:qx.ui.container.Scroll;
-    private var view:qx.ui.basic.Label;
-    private var content:String;
+    private var view:qx.ui.container.Composite;
     private var lines:Int;
 
     public function new()
     {
-        var layout = new qx.ui.layout.VBox(2);
-        super(layout);
+        super(new qx.ui.layout.HBox(2));
 
-        this.content = "";
         this.lines = 0;
 
-        this.view = new qx.ui.basic.Label(this.content);
-        this.view.set({
-            rich: true,
-            selectable: true,
-        });
+        var layout = new qx.ui.layout.VBox(0);
+        this.view = new qx.ui.container.Composite(layout);
 
         this.scroller = new qx.ui.container.Scroll(this.view);
         this.scroller.set({
@@ -33,8 +27,6 @@ class ChatView extends qx.ui.container.Composite
 
     public function add_message(nick:String, date:Date, text:String)
     {
-        var cutter = "<!-- C -->";
-
         var time = DateTools.format(date, "%H:%M:%S");
 
         // they're using <font/> in C&C TA, so we can do it, too? O_o
@@ -42,17 +34,19 @@ class ChatView extends qx.ui.container.Composite
         fullmsg += " <font color=\"#66ffff\">" + nick + "</font>";
         fullmsg += "<font color=\"#00cc00\">:</font>";
         fullmsg += " <font color=\"#ffffff\">" + text + "</font>";
-        fullmsg += "<br>" + cutter;
 
-        this.content += fullmsg;
+        var line = new qx.ui.basic.Label(fullmsg);
+        line.set({
+            rich: true,
+            selectable: true,
+        });
+
+        this.view.add(line);
+
         if (++this.lines > 1000) {
-            var cutterpos = this.content.indexOf(cutter);
-            if (cutterpos != -1) {
-                var cut_at = cutterpos + cutter.length;
-                this.content = this.content.substr(cut_at);
-            }
+            this.view.removeAt(0);
         }
-        this.view.setValue(this.content);
+
         this.scroller.scrollToY(500000);
     }
 }
