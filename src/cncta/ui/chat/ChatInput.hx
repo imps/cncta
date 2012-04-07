@@ -5,9 +5,16 @@ class ChatInput extends qx.ui.container.Composite
     private var chatline:qx.ui.form.TextField;
     private var sendbutton:qx.ui.form.Button;
 
+    private var history:Array<String>;
+    private var history_index:Int;
+    private var original_value:String;
+
     public function new()
     {
         super(new qx.ui.layout.HBox());
+
+        this.history = new Array();
+        this.history_index = null;
 
         this.chatline = new qx.ui.form.TextField();
         this.chatline.set({
@@ -33,10 +40,59 @@ class ChatInput extends qx.ui.container.Composite
         this.chatline.focus();
     }
 
+    private function history_up()
+    {
+        if (this.history_index == null) {
+            this.original_value = this.chatline.getValue();
+            this.history_index = this.history.length;
+        } else if (this.history_index <= 0) {
+            return;
+        }
+
+        this.history_index--;
+
+        this.push_history();
+    }
+
+    private function history_down()
+    {
+        if (this.history_index == null)
+            return;
+
+        if (this.history_index >= this.history.length - 1) {
+            this.history_index = null;
+        } else {
+            this.history_index++;
+        }
+
+        this.push_history();
+    }
+
+    private function push_history()
+    {
+        var value:String;
+        if (this.history_index == null) {
+            value = this.original_value;
+        } else {
+            value = this.history[history_index];
+        }
+
+        this.chatline.setValue(value);
+    }
+
+    private function append_history(line:String)
+    {
+        this.history.push(line);
+        this.history_index = null;
+    }
+
     private function on_chatinput(e:Dynamic)
     {
-        if (e.getKeyIdentifier() == "Enter") {
-            this.on_submit();
+        switch (e.getKeyIdentifier()) {
+            case "Enter": this.on_submit();
+            case "Up": history_up(); e.stop();
+            case "Down": history_down(); e.stop();
+            default:
         }
     }
 
@@ -48,6 +104,7 @@ class ChatInput extends qx.ui.container.Composite
         if (line == null || line.length == 0)
             return;
 
+        this.append_history(line);
         this.on_send(line);
     }
 
