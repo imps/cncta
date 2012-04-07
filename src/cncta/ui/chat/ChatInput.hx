@@ -28,6 +28,11 @@ class ChatInput extends qx.ui.container.Composite
         this.add(this.sendbutton);
     }
 
+    public function set_focus()
+    {
+        this.chatline.focus();
+    }
+
     private function on_chatinput(e:Dynamic)
     {
         if (e.getKeyIdentifier() == "Enter") {

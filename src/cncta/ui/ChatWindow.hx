@@ -32,6 +32,7 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
         this.input.on_send = this.message_input;
 
         this.addListener("appear", this.on_appear);
+        this.addListener("mouseover", this.input.set_focus);
     }
 
     public inline function on_enter(nick:String)
@@ -46,6 +47,7 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
 
     private function on_appear()
     {
+        this.input.set_focus();
         this.centerPosition();
         this.bringToFront();
     }
