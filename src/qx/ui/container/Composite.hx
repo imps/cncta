@@ -17,5 +17,6 @@ extern class Composite extends qx.ui.core.Widget
     public function addAfter(child:LayoutItem, after:LayoutItem,
                              ?opts:Dynamic):Void;
 
+    public function remove(child:LayoutItem):Void;
     public function removeAt(index:Int):LayoutItem;
 }

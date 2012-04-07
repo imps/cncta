@@ -32,6 +32,9 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
         this.input.on_send = this.message_input;
 
         this.addListener("appear", this.on_appear);
+
+        this.view.roster.add_member("foo", "bar");
+        this.view.roster.add_member("mooh", "maeh");
     }
 
     private function on_appear()
