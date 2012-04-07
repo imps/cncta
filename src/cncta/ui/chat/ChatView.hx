@@ -46,10 +46,12 @@ class ChatView extends qx.ui.container.Composite
     {
         var time = DateTools.format(date, "%H:%M:%S");
 
+        var bbtext = cncta.inject.Util.convertBBCode(text, true, "#ff9900");
+
         var fullmsg = this.color("#00ff00", "[" + time + "]");
         fullmsg += " " + this.color("#66ffff", nick);
         fullmsg += this.color("#00cc00", ":");
-        fullmsg += " " + this.color("#ffffff", text);
+        fullmsg += " " + this.color("#ffffff", bbtext);
 
         var line = new qx.ui.basic.Label(fullmsg);
         line.set({
