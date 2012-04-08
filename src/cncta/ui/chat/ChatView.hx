@@ -39,11 +39,6 @@ class ChatView extends qx.ui.container.Composite
         this.addListener("resize", this.scroll_down);
     }
 
-    private function color(color:String, value:String)
-    {
-        return "<span style=\"color:" + color + "\">" + value + "</span>";
-    }
-
     private function scroll_down()
     {
         this.scroller.scrollToY(500000);
@@ -52,21 +47,7 @@ class ChatView extends qx.ui.container.Composite
     public function add_message(nick:String, date:Date, text:String,
                                 ?is_me:Bool = false)
     {
-        var time = DateTools.format(date, "%H:%M:%S");
-
-        var bbtext = cncta.inject.Util.convertBBCode(text, true, "#ff9900");
-
-        var fullmsg = this.color("#00ff00", "[" + time + "]");
-        fullmsg += " " + this.color(is_me ? "#ff5050" : "#66ffff", nick);
-        fullmsg += this.color("#00cc00", ":");
-        fullmsg += " " + this.color("#ffffff", bbtext);
-
-        var line = new qx.ui.basic.Label(fullmsg);
-        line.set({
-            rich: true,
-            selectable: true,
-        });
-
+        var line = new cncta.ui.chat.ChatLine(date, nick, text, is_me);
         this.view.add(line);
 
         if (++this.lines > 1000) {
