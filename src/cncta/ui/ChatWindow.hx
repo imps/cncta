@@ -5,6 +5,8 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
     private var view:cncta.ui.chat.ChatView;
     private var input:cncta.ui.chat.ChatInput;
 
+    private var appeared:Bool;
+
     public function new()
     {
         super("Chat");
@@ -30,6 +32,7 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
         this.add(this.input);
 
         this.input.on_send = this.message_input;
+        this.appeared = false;
 
         this.addListener("appear", this.on_appear);
         this.addListener("mouseover", this.input.set_focus);
@@ -49,8 +52,13 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
     {
         this.fireEvent("unflash");
         this.input.set_focus();
-        this.centerPosition();
+
+        if (!this.appeared)
+            this.centerPosition();
+
         this.bringToFront();
+
+        this.appeared = true;
     }
 
     private inline function message_input(text:String)
