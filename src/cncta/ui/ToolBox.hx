@@ -27,10 +27,12 @@ class ToolBox extends qx.ui.container.Composite
         var button = this.add_button(label, tooltip, listener);
 
         window.addListener("flash", function() {
+            button.setDecorator("button-standard-hovered");
             button.setIcon("FractionUI/icons/cht_opt_maximize_b.gif");
         });
 
         window.addListener("unflash", function() {
+            button.resetDecorator();
             button.setIcon("FractionUI/icons/cht_opt_maximize.gif");
         });
     }
