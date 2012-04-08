@@ -2,7 +2,10 @@ package cncta.ui.chat;
 
 class ChatLine extends qx.ui.container.Composite
 {
-    public function new(date:Date, nick:String, text:String, is_me:Bool)
+    public inline var is_me(default, set_is_me):Bool;
+    private var nicklabel:qx.ui.basic.Label;
+
+    public function new(date:Date, nick:String, text:String)
     {
         super(new qx.ui.layout.HBox(5));
 
@@ -14,12 +17,10 @@ class ChatLine extends qx.ui.container.Composite
         timelabel.set({selectable: true});
         this.add(timelabel);
 
-        var nicklabel = new qx.ui.basic.ColorLabel(
-            is_me ? "#ff5050" : "#66ffff",
-            nick + ":"
-        );
-        nicklabel.set({selectable: true});
-        this.add(nicklabel);
+        this.nicklabel = new qx.ui.basic.Label(nick + ":");
+        this.nicklabel.set({selectable: true});
+        this.is_me = false;
+        this.add(this.nicklabel);
 
         var textlabel = new cncta.ui.ColorLabel("#ffffff", bbtext);
 
@@ -33,8 +34,11 @@ class ChatLine extends qx.ui.container.Composite
         this.add(textlabel, {flex: 1});
     }
 
-    private function color(color:String, value:String)
+    private inline function set_is_me(v:Bool)
     {
-        return "<span style=\"color:" + color + "\">" + value + "</span>";
+        this.nicklabel.set({
+            textColor: (v ? "#ff5050" : "#66ffff")
+        });
+        return is_me = v;
     }
 }

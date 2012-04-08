@@ -47,7 +47,8 @@ class ChatView extends qx.ui.container.Composite
     public function add_message(nick:String, date:Date, text:String,
                                 ?is_me:Bool = false)
     {
-        var line = new cncta.ui.chat.ChatLine(date, nick, text, is_me);
+        var line = new cncta.ui.chat.ChatLine(date, nick, text);
+        line.is_me = is_me;
         this.view.add(line);
 
         if (++this.lines > 1000) {
