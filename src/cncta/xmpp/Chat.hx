@@ -186,20 +186,10 @@ class Chat
         }
     }
 
-    private function prepare_text(text:String)
-    {
-        text = StringTools.trim(text);
-        if (StringTools.startsWith(text, "/a ")) {
-            // XXX: Just strip it by now, as we don't have global chat, yet.
-            return text.substr(3);
-        }
-        return StringTools.htmlEscape(text);
-    }
-
     public function send(text:String)
     {
         if (this.room != null) {
-            this.room.speak(prepare_text(text));
+            this.room.speak(StringTools.htmlEscape(StringTools.trim(text)));
         }
     }
 
