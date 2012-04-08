@@ -22,7 +22,9 @@ class ChatLine extends qx.ui.container.Composite
         this.is_me = false;
         this.add(this.nicklabel);
 
-        var textlabel = new cncta.ui.ColorLabel("#ffffff", bbtext);
+        var style = "white-space:pre-wrap;word-wrap:break-word";
+        var wrapped = "<span style=\"" + style + "\">" + bbtext + "</span>";
+        var textlabel = new cncta.ui.ColorLabel("#ffffff", wrapped);
 
         textlabel.set({
             rich: true,
