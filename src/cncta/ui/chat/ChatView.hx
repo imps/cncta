@@ -19,15 +19,22 @@ class ChatView extends qx.ui.container.Composite
 
         this.scroller = new qx.ui.container.Scroll(this.view);
         this.scroller.set({
-            minWidth: 300,
-            minHeight: 50,
+            width: 300,
+            height: 50,
+            minWidth: 100,
             scrollbarY: "on",
         });
 
-        this.add(this.scroller, {flex: 1});
+        this.add(this.scroller, {flex: 4});
 
         this.roster = new ChatRoster();
-        this.add(this.roster);
+        this.roster.set({
+            allowShrinkX: true,
+            minWidth: 50,
+            maxWidth: 200,
+        });
+
+        this.add(this.roster, {flex: 1});
 
         this.addListener("resize", this.scroll_down);
     }
