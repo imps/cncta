@@ -69,9 +69,9 @@ class ChatWindow extends cncta.inject.ui.CustomWindow
     public dynamic function on_send(text:String):Void {}
 
     public inline function add_message(nick:String, date:Date, text:String,
-                                       ?nick_color:String)
+                                       ?is_me:Bool = false)
     {
-        this.view.add_message(nick, date, text, nick_color);
+        this.view.add_message(nick, date, text, is_me);
 
         if (!this.isVisible()) {
             this.fireEvent("flash");
