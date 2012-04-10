@@ -23,8 +23,18 @@ class CNCTA
 
     public function new()
     {
-        var watch = new cncta.watchers.InitWatch();
-        watch.on_watch_ready = this.start;
+        this.maindata = cncta.inject.MainData.GetInstance();
+        this.ui = cast qx.core.Init.getApplication();
+
+        var navbar = this.ui.getAppointmentsBar();
+
+        this.toolbox = new cncta.ui.ToolBox();
+        navbar.add(this.toolbox);
+
+        this.attach2toolbox();
+
+        var watch_player = new cncta.watchers.PlayerWatch();
+        watch_player.on_watch_ready = this.start_xmpp;
     }
 
     private function on_new_message(msg:cncta.xmpp.ChatMessage)
@@ -64,22 +74,6 @@ class CNCTA
             "Get BaseBuilder URL",
             new cncta.ui.BaseBuilder()
         );
-    }
-
-    private function start()
-    {
-        this.maindata = cncta.inject.MainData.GetInstance();
-        this.ui = cast qx.core.Init.getApplication();
-
-        var navbar = this.ui.getAppointmentsBar();
-
-        this.toolbox = new cncta.ui.ToolBox();
-        navbar.add(this.toolbox);
-
-        this.attach2toolbox();
-
-        var watch_player = new cncta.watchers.PlayerWatch();
-        watch_player.on_watch_ready = this.start_xmpp;
     }
 
     private function get_alliance_hash():String
