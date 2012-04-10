@@ -7,64 +7,75 @@ class GetReady implements IUserScriptTemplate
         this.code = code;
     }
 
-    private function attach_loader()
-    {
-        var watcher = this.get_watcher_on("typeof(webfrontend) == 'object'");
-        var attach = "";
-
-        attach += "finish_handler__ = " + watcher + ";";
-        attach += "if (typeof(loader) != 'undefined')";
-        attach +=     "loader.addFinishHandler(finish_handler__);";
-        attach += "else if(typeof(window.loader) != 'undefined')";
-        attach +=     "window.loader.addFinishHandler(finish_handler__)";
-
-        return this.escape_code(attach);
-    }
-
-    private inline function escape_code(code:String)
-    {
-        // TODO: do this in one pass someday...
-        var out = StringTools.replace(code, "\\", "\\\\");
-        out     = StringTools.replace(out,  "\n", "\\n");
-        out     = StringTools.replace(out,  "\"", "\\\"");
-        return "\"" + out + "\"";
-    }
-
-    private function get_watcher_on(teststr:String)
+    private function get_watcher_on(teststr:String, code:String):String
     {
         var out = "";
 
-        out += "function() {";
-        out += "var wtimer__ = null;";
+        var retry = "window.setTimeout(watch_timer__, 1000);";
+
         out += "function watch_timer__(){";
         out +=     "if(" + teststr + "){";
-        out +=         this.make_loader(this.escape_code(this.code));
-        out +=         "window.clearInterval(wtimer__);";
+        out +=         code;
+        out +=     "} else {";
+        out +=         retry;
         out +=     "}";
         out += "}";
-        out += "wtimer__ = window.setInterval(watch_timer__, 1000);";
+        out += retry;
+
+        return out;
+    }
+
+    private function make_loader(code:String):String
+    {
+        var out = "";
+
+        out += "var inject__ = document.createElement('script');";
+        out += "inject__.setAttribute('type', 'text/javascript');";
+        out += "inject__.innerHTML = " + code + ";";
+        out += "document.body.appendChild(inject__);";
+        out += "document.body.removeChild(inject__);";
+
+        return out;
+    }
+
+    private function make_watcher(code:String):String
+    {
+        var syms = [
+            "qx",
+            "webfrontend",
+            "qx.core.Init.getApplication",
+        ];
+
+        var check_code = "";
+        for (sym in syms) {
+            check_code += "typeof(" + sym + ") != 'undefined'";
+            check_code += " && ";
+        }
+
+        check_code += "qx.core.Init.getApplication().initDone == true";
+
+        return this.get_watcher_on(check_code, code);
+    }
+
+    private function make_mainfunction(code:String):String
+    {
+        var out = "function cncta_userscript__(){";
+        out += "function userscript_main_code__(){" + code + "}";
+        out += this.make_watcher("userscript_main_code__();");
         out += "}";
 
         return out;
     }
 
-    private function make_loader(code:String)
+    private function enclose(code:String):String
     {
-        var out = "";
-
-        out += "(function(){";
-        out +=     "var inject__ = document.createElement('script');";
-        out +=     "inject__.setAttribute('type', 'text/javascript');";
-        out +=     "inject__.textContent = " + code + ";";
-        out +=     "document.body.appendChild(inject__);";
-        out +=     "document.body.removeChild(inject__);";
-        out += "})();";
-
-        return out;
+        return "(function(){" + code + "})();";
     }
 
     public function generate():String
     {
-        return this.make_loader(this.attach_loader());
+        var out = make_mainfunction(this.code);
+        out += this.make_loader("'('+cncta_userscript__.toString()+')()'");
+        return this.enclose(out);
     }
 }
