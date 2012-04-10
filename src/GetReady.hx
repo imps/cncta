@@ -53,13 +53,11 @@ class GetReady implements IUserScriptTemplate
         var out = "";
 
         out += "(function(){";
-        out +=     "inject__ = document.createElement('script');";
-        out +=     "inject__.type = 'text/javascript';";
-        out +=     "inject__.appendChild(document.createTextNode(";
-        out +=         code;
-        out +=     "));";
-        out +=     "document.getElementsByTagName('head')[0].";
-        out +=         "appendChild(inject__);";
+        out +=     "var inject__ = document.createElement('script');";
+        out +=     "inject__.setAttribute('type', 'text/javascript');";
+        out +=     "inject__.textContent = " + code + ";";
+        out +=     "document.body.appendChild(inject__);";
+        out +=     "document.body.removeChild(inject__);";
         out += "})();";
 
         return out;
