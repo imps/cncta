@@ -12,11 +12,11 @@ class GetReady implements IUserScriptTemplate
         var watcher = this.get_watcher_on("typeof(webfrontend) == 'object'");
         var attach = "";
 
-        attach += "__finish_handler = " + watcher + ";";
+        attach += "finish_handler__ = " + watcher + ";";
         attach += "if (typeof(loader) != 'undefined')";
-        attach +=     "loader.addFinishHandler(__finish_handler);";
+        attach +=     "loader.addFinishHandler(finish_handler__);";
         attach += "else if(typeof(window.loader) != 'undefined')";
-        attach +=     "window.loader.addFinishHandler(__finish_handler)";
+        attach +=     "window.loader.addFinishHandler(finish_handler__)";
 
         return this.escape_code(attach);
     }
