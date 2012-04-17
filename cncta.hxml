@@ -1,4 +1,4 @@
-#!/usr/bin/haxe
+#!/usr/bin/env haxe
 -cp src
 -js cncta.js
 -main CNCTA
