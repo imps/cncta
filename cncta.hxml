@@ -1,6 +1,7 @@
 #!/usr/bin/env haxe
 -cp src
 -js cncta.js
+--dead-code-elimination
 -main CNCTA
 -lib hxmpp
 -lib jsmin
