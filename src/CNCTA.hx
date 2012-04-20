@@ -1,6 +1,6 @@
 @name("IMPS C&C TA Helper")
 @author("aszlig")
-@description("A small tool which helps managing an alliance.")
+@description("Various extensions to Command & Conquer - Tiberium Alliances")
 @namespace("https://github.com/imps/cncta")
 @include(
     [ "https://prodgame*.alliances.commandandconquer.com/*"
