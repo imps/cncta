@@ -16,6 +16,11 @@ class UserScript
                             var usheader = macro.UserScript.generate_meta(meta);
                             usheader += "\n#CODE_HERE#\n";
 
+                            // remove all metadata
+                            for (m in meta) {
+                                cls.meta.remove(m.name);
+                            }
+
                             var outfile = neko.io.File.write(file, false);
                             outfile.writeString(usheader);
                             outfile.close();
