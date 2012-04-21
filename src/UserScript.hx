@@ -1,3 +1,5 @@
+package;
+
 #if macro
 import haxe.macro.Expr;
 #end

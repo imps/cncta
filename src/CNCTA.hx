@@ -1,3 +1,5 @@
+package;
+
 @name("IMPS C&C TA Helper")
 @author("aszlig")
 @description("Various extensions to Command & Conquer - Tiberium Alliances")
