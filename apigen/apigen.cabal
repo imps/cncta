@@ -1,0 +1,16 @@
+Name:                apigen
+Version:             0.1
+Synopsis:            JS2Haxe API generator
+Homepage:            https://github.com/imps/cncta
+License:             BSD3
+License-file:        ../COPYING
+Author:              aszlig
+Maintainer:          aszlig@redmoonstudios.org
+Category:            Development
+Build-type:          Simple
+Cabal-version:       >=1.2
+
+
+Executable apigen
+    Main-is:         APIGen.hs
+    Build-depends:   base < 5
