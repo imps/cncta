@@ -183,39 +183,6 @@ class Boot {
 		untyped {
 			Lib.isIE = (__js__("typeof document!='undefined'") && document.all != null && __js__("typeof window!='undefined'") && window.opera == null );
 			Lib.isOpera = (__js__("typeof window!='undefined'") && window.opera != null );
-			Array.prototype.copy = Array.prototype.slice;
-			Array.prototype.insert = function(i,x) {
-				__this__.splice(i,0,x);
-			};
-			Array.prototype.remove = if( Array.prototype.indexOf ) function(obj) {
-				var idx = __this__.indexOf(obj);
-				if( idx == -1 ) return false;
-				__this__.splice(idx,1);
-				return true;
-			} else function(obj) {
-				var i = 0;
-				var l = __this__.length;
-				while( i < l ) {
-					if( __this__[i] == obj ) {
-						__this__.splice(i,1);
-						return true;
-					}
-					i++;
-				}
-				return false;
-			};
-			Array.prototype.iterator = function() {
-				return {
-					cur : 0,
-					arr : __this__,
-					hasNext : function() {
-						return __this__.cur < __this__.arr.length;
-					},
-					next : function() {
-						return __this__.arr[__this__.cur++];
-					}
-				}
-			};
 			if( String.prototype.cca == null )
 				String.prototype.cca = String.prototype.charCodeAt;
 			String.prototype.charCodeAt = function(i) {
