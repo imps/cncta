@@ -21,6 +21,8 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
  * DAMAGE.
+ *
+ * This is a modified version of Haxe's Array class.
  */
 
 /**
@@ -76,7 +78,7 @@ extern class Array<T> {
 		negative to count from the end: -1 is the last item in
 		the array.
 	**/
-	function slice( pos : Int, ?end : Int ) : Array<T>;
+	function slice( ?pos : Int, ?end : Int ) : Array<T>;
 
 	/**
 		Sort the Array according to the comparison function [f].
@@ -88,7 +90,7 @@ extern class Array<T> {
 	/**
 		Removes [len] elements starting from [pos] an returns them.
 	**/
-	function splice( pos : Int, len : Int ) : Array<T>;
+	function splice( pos : Int, len : Int, ?x:T ) : Array<T>;
 
 	/**
 		Returns a displayable representation of the Array content.
@@ -104,24 +106,55 @@ extern class Array<T> {
 		Inserts the element [x] at the position [pos].
 		All elements after [pos] are moved one index ahead.
 	**/
-	function insert( pos : Int, x : T ) : Void;
+    inline function insert(i:Int, x:T):Void
+    {
+        this.splice(i, 0, x);
+    }
 
 	/**
 		Removes the first occurence of [x].
 		Returns false if [x] was not present.
 		Elements are compared by using standard equality.
 	**/
-	function remove( x : T ) : Bool;
+    inline function remove(x:T):Bool
+    {
+        var ret:Bool = false;
+        // FIXME: Don't use if on every call.
+        if (untyped __js__("Array.prototype.indexOf")) {
+            var idx = untyped this.indexOf(x);
+            if(idx != -1) {
+                this.splice(idx, 1);
+                ret = true;
+            }
+        } else {
+            var i = 0;
+            var l = this.length;
+            while(i < l) {
+                if(this[i] == x) {
+                    this.splice(i,1);
+                    ret = true;
+                    break;
+                }
+                i++;
+            }
+        }
+        return ret;
+    }
 
 	/**
 		Returns a copy of the Array. The values are not
 		copied, only the Array structure.
 	**/
-	function copy() : Array<T>;
+    public inline function copy():Array<T>
+    {
+        return this.slice();
+    }
 
 	/**
 		Returns an iterator of the Array values.
 	**/
-	function iterator() : Iterator<Null<T>>;
-
+    inline function iterator():Iterator<Null<T>>
+    {
+        return JSArrayHelper.gen_iter(this);
+    }
 }
