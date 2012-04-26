@@ -118,27 +118,7 @@ extern class Array<T> {
 	**/
     inline function remove(x:T):Bool
     {
-        var ret:Bool = false;
-        // FIXME: Don't use if on every call.
-        if (untyped __js__("Array.prototype.indexOf")) {
-            var idx = untyped this.indexOf(x);
-            if(idx != -1) {
-                this.splice(idx, 1);
-                ret = true;
-            }
-        } else {
-            var i = 0;
-            var l = this.length;
-            while(i < l) {
-                if(this[i] == x) {
-                    this.splice(i,1);
-                    ret = true;
-                    break;
-                }
-                i++;
-            }
-        }
-        return ret;
+        return JSArrayHelper.remove(this, x);
     }
 
 	/**
