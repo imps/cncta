@@ -8,12 +8,12 @@ class UserScript
 
     public function new(template:String)
     {
-        this.template = neko.io.File.getContent(template);
+        this.template = sys.io.File.getContent(template);
     }
 
     public function from_infile(infile:String)
     {
-        var code = new jsmin.JSMin(neko.io.File.getContent(infile)).output;
+        var code = new jsmin.JSMin(sys.io.File.getContent(infile)).output;
 
         // XXX: GetReady is hardcoded here, need to find a way to fix it...
         var tpl:IUserScriptTemplate = new GetReady(code);
@@ -27,7 +27,7 @@ class UserScript
 
     public function write(outfile:String)
     {
-        var out = neko.io.File.write(outfile, false);
+        var out = sys.io.File.write(outfile, false);
         out.writeString(this.template);
         out.close();
     }

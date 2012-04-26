@@ -23,7 +23,7 @@ class UserScript
                                 cls.meta.remove(m.name);
                             }
 
-                            var outfile = neko.io.File.write(file, false);
+                            var outfile = sys.io.File.write(file, false);
                             outfile.writeString(usheader);
                             outfile.close();
                         }
