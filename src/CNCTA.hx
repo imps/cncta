@@ -10,7 +10,7 @@ package;
     ]
 )
 @run_at("document-end")
-@version("0.3.3")
+@version("0.3.4")
 @license("BSD3")
 
 class CNCTA
