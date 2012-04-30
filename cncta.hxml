@@ -1,4 +1,5 @@
 #!/usr/bin/env haxe
+-cp stdmonkey
 -cp src
 -js cncta.js
 --dead-code-elimination

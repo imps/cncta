@@ -1,0 +1,3 @@
+#!/usr/bin/env haxe
+-js test.js
+-main Test.hx

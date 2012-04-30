@@ -1,0 +1,7 @@
+This directory contains modified copies of Haxe's std, which will be gone as
+soon as Haxe 3 will be released. The reason we need them is because Haxe extends
+native String and Array prototypes, which clash with Qooxdoo's native overrides.
+
+Please have a look at the following issue for further information:
+
+http://code.google.com/p/haxe/issues/detail?id=572
