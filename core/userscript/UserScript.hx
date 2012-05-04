@@ -1,4 +1,4 @@
-package;
+package core.userscript;
 
 #if macro
 import haxe.macro.Expr;
@@ -15,7 +15,7 @@ class UserScript
                         var cls = c.get();
                         if (cls.name == uscls) {
                             var meta = cls.meta.get();
-                            var usheader = macro.UserScript.generate_meta(meta);
+                            var usheader = MetaGenerator.generate(meta);
                             usheader += "\n#CODE_HERE#\n";
 
                             // remove all metadata
@@ -39,7 +39,7 @@ class UserScript
 #if macro
     public static function generate(infile:String, outfile:String)
     {
-        var script = new macro.UserScript(outfile);
+        var script = new MetaGenerator(outfile);
         script.from_infile(infile);
         script.write(outfile);
     }

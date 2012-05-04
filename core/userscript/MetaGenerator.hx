@@ -1,8 +1,8 @@
-package macro;
+package core.userscript;
 
 import haxe.macro.Expr;
 
-class UserScript
+class MetaGenerator
 {
     private var template:String;
 
@@ -15,8 +15,8 @@ class UserScript
     {
         var code = new jsmin.JSMin(sys.io.File.getContent(infile)).output;
 
-        // XXX: GetReady is hardcoded here, need to find a way to fix it...
-        var tpl:IUserScriptTemplate = new GetReady(code);
+        // XXX: Generate is hardcoded here, need to find a way to fix it...
+        var tpl:ITemplate = new Generate(code);
 
         this.template = StringTools.replace(
             this.template,
@@ -32,7 +32,7 @@ class UserScript
         out.close();
     }
 
-    public static function finalize_meta(name:String, value:String):String
+    public static function finalize(name:String, value:String):String
     {
         return "// @" + name + " " + value + "\n";
     }
@@ -65,7 +65,7 @@ class UserScript
                 }
             case EArrayDecl(a):
                 for (val in a) {
-                    out.push(UserScript.get_string_value(val.expr));
+                    out.push(MetaGenerator.get_string_value(val.expr));
                 }
             default:
         }
@@ -73,7 +73,7 @@ class UserScript
         return out;
     }
 
-    public static function generate_meta(meta:Metadata)
+    public static function generate(meta:Metadata)
     {
         var out = "// ==UserScript==\n";
 
@@ -81,9 +81,9 @@ class UserScript
             var name:String = m.name;
 
             for (p in m.params) {
-                var values = UserScript.get_values(p.expr);
+                var values = MetaGenerator.get_values(p.expr);
                 for (value in values) {
-                    out += UserScript.finalize_meta(name, value);
+                    out += MetaGenerator.finalize(name, value);
                 }
             }
         }

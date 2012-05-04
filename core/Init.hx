@@ -1,4 +1,4 @@
-package;
+package core;
 
 @name("IMPS C&C TA Helper")
 @author("aszlig")
@@ -13,9 +13,9 @@ package;
 @version("0.3.4")
 @license("BSD3")
 
-class CNCTA
+class Init
 {
-    private var xmpp:cncta.xmpp.Chat;
+    private var xmpp:core.xmpp.Chat;
 
     private var maindata:cncta.inject.MainData;
     private var ui:cncta.inject.ui.Application;
@@ -39,7 +39,7 @@ class CNCTA
         watch_player.on_watch_ready = this.start_xmpp;
     }
 
-    private function on_new_message(msg:cncta.xmpp.ChatMessage)
+    private function on_new_message(msg:core.xmpp.ChatMessage)
     {
         this.chatwin.add_message(
             msg.sender,
@@ -111,17 +111,16 @@ class CNCTA
         var nick = this.maindata.get_Player().get_Name();
         var passwd = this.get_alliance_hash();
 
-        this.xmpp = new cncta.xmpp.Chat(nick, this.get_channel_name(), passwd);
+        this.xmpp = new core.xmpp.Chat(nick, this.get_channel_name(), passwd);
         this.xmpp.on_joined = this.add_chat_handlers;
         this.xmpp.on_enter = this.chatwin.on_enter;
         this.xmpp.on_leave = this.chatwin.on_leave;
         this.xmpp.connect();
     }
 
-    static function main()
+    public static function main()
     {
-        UserScript.extract_meta("CNCTA", "cncta.user.js");
-
-        new CNCTA();
+        core.userscript.UserScript.extract_meta("CNCTA", "cncta.user.js");
+        new Init();
     }
 }

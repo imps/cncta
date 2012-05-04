@@ -1,11 +1,10 @@
 #!/usr/bin/env haxe
--cp src
 -js cncta.js
 --dead-code-elimination
--main CNCTA
+-main core.Init
 -lib hxmpp
 -lib jsmin
 --next
 -cp src
 -lib jsmin
---macro UserScript.generate("cncta.js", "cncta.user.js")
+--macro core.userscript.UserScript.generate("cncta.js", "cncta.user.js")

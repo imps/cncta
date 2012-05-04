@@ -1,4 +1,4 @@
-package cncta.xmpp;
+package core.xmpp;
 
 class ChatMessage
 {

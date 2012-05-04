@@ -1,4 +1,6 @@
-class GetReady implements IUserScriptTemplate
+package core.userscript;
+
+class Generate implements core.userscript.ITemplate
 {
     private var code:String;
 
