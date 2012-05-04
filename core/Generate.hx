@@ -1,4 +1,4 @@
-package core.userscript;
+package core;
 
 class Generate implements core.userscript.ITemplate
 {
