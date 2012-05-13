@@ -1,4 +1,4 @@
-package cncta.watchers;
+package core.watchers;
 
 class Watch
 {

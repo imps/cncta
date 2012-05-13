@@ -22,7 +22,7 @@ class Init
 
         this.attach2toolbox();
 
-        var watch_player = new cncta.watchers.PlayerWatch();
+        var watch_player = new core.watchers.PlayerWatch();
         watch_player.on_watch_ready = this.start_xmpp;
     }
 
