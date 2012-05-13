@@ -1,18 +1,5 @@
 package core;
 
-@name("IMPS C&C TA Helper")
-@author("aszlig")
-@description("Various extensions to Command & Conquer - Tiberium Alliances")
-@namespace("https://github.com/imps/cncta")
-@include(
-    [ "https://prodgame*.alliances.commandandconquer.com/*"
-    , "http://prodgame*.alliances.commandandconquer.com/*"
-    ]
-)
-@run_at("document-end")
-@version("0.3.4")
-@license("BSD3")
-
 class Init
 {
     private var xmpp:core.xmpp.Chat;
@@ -116,11 +103,5 @@ class Init
         this.xmpp.on_enter = this.chatwin.on_enter;
         this.xmpp.on_leave = this.chatwin.on_leave;
         this.xmpp.connect();
-    }
-
-    public static function main()
-    {
-        core.userscript.UserScript.extract_meta("CNCTA", "cncta.user.js");
-        new Init();
     }
 }
